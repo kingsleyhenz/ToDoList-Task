@@ -1,0 +1,36 @@
+#tasks-table{
+    /* width: 1000px; */
+    font-size:12px;
+}
+
+#tasks-table td{
+    padding:10px;
+}
+#task-table tr{
+    font-size: 10px;
+}
+.btns{
+    display: flex;
+    justify-content: space-between;
+    /* background-color: aqua; */
+    height: 100%;
+    width: 20%;
+}
+#upd{
+    background: linear-gradient(45deg,yellow,orangered);
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px grey;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}
+#del{
+    background: linear-gradient(45deg,orangered,red);
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px grey;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}
