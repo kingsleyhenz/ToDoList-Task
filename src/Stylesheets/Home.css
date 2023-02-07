@@ -40,9 +40,6 @@ body{
     height: 15%;
     font-size: 20px;
     border-radius: 10px;
-    /* background: -webkit-linear-gradient(#eee, #333);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; */
 }
 #date-time{
     /* background-color: white; */
@@ -59,11 +56,26 @@ body{
     background-color: white;
     border-radius: 10px;
 }
+.cal{
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(45deg,yellow,orangered);
+    box-shadow: 5px 5px 5px rgb(190, 190, 190);
+    color: rgb(226, 60, 0);
+}
 .time{
     width: 45%;
     height: 50%;
     background-color: white;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 55px;
+    font-weight: bold;
+    background: -webkit-linear-gradient(45deg,yellow,orangered);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 .completed{
     width: 75%;

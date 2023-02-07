@@ -26,7 +26,7 @@
 }
 form{
     /* border: 5px solid rgb(255, 196, 0); */
-    width: 35%;
+    width: 45%;
     height: 500px;
     border-radius: 10px;
     background-color: white;
@@ -36,8 +36,13 @@ form{
     gap: 25px;
     padding: 10px 0;
     box-shadow: 10px 10px 10px rgb(185, 143, 117);
+    margin-top: 90px;
 }
-input{
+#log{
+    height: 350px;
+    gap: 40px;
+}
+form input{
     width: 90%;
     height: 10%;
     background-color: transparent;
@@ -50,7 +55,7 @@ input{
     color: black;
     font-weight: 700;
 }
-button{
+form button{
     padding: 7px 15px;
     background: linear-gradient(45deg,yellow,orangered);
     border: none;
