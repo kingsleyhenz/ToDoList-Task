@@ -29,7 +29,6 @@ return(
         <div className="Homebody">
             <div id="wlcmtxt">
                 <h3>Home Page</h3>
-                <h2>Kingsley Henshaw</h2>
             </div>
             <div id="date-time">
                 <div className="date">

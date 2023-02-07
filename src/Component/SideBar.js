@@ -9,11 +9,9 @@ const SideBar =()=>{
             <div className="firstlayer">
             <NavLink to="/Home">Home</NavLink>
             <NavLink to="/Todo">Add Todo</NavLink>
-            <NavLink to="/category">Tasks</NavLink>
-            <NavLink to="/notify">Notifications</NavLink>
+            <NavLink to="/task">Tasks</NavLink>
             </div>
             <div className="secondlayer">
-            <NavLink to="/Settings">Settings</NavLink>
             <NavLink to="/Logout">Logout</NavLink>
             </div>
         </div>

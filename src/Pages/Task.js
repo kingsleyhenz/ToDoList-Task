@@ -2,7 +2,7 @@ import React from "react";
 import SideBar from "../Component/SideBar";
 import '../Stylesheets/Notify.css'
 
-const Message =()=>{
+const TaskView =()=>{
     return(
         <>
             <div className="wrapper">
@@ -10,7 +10,7 @@ const Message =()=>{
             <div id="body-wrp">
                 <SideBar/>
                 <div className="homebody">
-                    <h3>My Messages</h3>
+                    <h3>My Tasks</h3>
                     <div className="msgbox"></div>
                     </div>
                 </div>
@@ -19,4 +19,4 @@ const Message =()=>{
     )
 }
 
-export default Message
+export default TaskView

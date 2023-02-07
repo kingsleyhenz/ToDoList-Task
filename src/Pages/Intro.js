@@ -14,7 +14,7 @@ const SignUp = ()=>{
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/task/register', {
+      const response = await axios.post('https://kingsleystodolist.onrender.com/api/v1/task/register', {
         name,
         username,
         email,

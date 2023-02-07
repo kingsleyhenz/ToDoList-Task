@@ -3,7 +3,7 @@ import SignUp from "./Pages/Intro";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Todo from "./Pages/Todo";
-import Message from "./Pages/Notify";
+import TaskView from "./Pages/Task";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/Home" element={<Home />} />
         <Route path="/todo" element={<Todo />} />
-        <Route path="/notify" element={<Message />} />
+        <Route path="/task" element={<TaskView/>} />
       </Routes>
     </>
   );

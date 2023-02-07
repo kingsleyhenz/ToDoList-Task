@@ -11,7 +11,7 @@ const Todo =()=>{
     head: "", 
     item: "", 
     category: "", 
-    status: "Not Complete", 
+    status: "Incomplete", 
     startDate: "",
     endDate: "" 
   });
@@ -24,7 +24,7 @@ const Todo =()=>{
   const addNewTask = async (event) => {
     event.preventDefault()
     try {
-      const response = await axios.post("http://localhost:5000/api/v1/task/create", task);
+      const response = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/create", task);
       const data = response.data;
       if (data.status === "success") {
         setTasks([...tasks, data.task]);
@@ -59,15 +59,15 @@ const Todo =()=>{
         <div id="body-wrp">
                 <SideBar/>
             <div className="homebody">
-                    <h3>ToDo Tasks</h3>
+                    <h3>Add New Tasks</h3>
                 <div className="todobox">
                     <form className="adding">
                         <input type="text" name="head" placeholder="Title" value={task.head} onChange={handleInputChange}/>
                         <input type="text" name="item" placeholder="Task item" value={task.item} onChange={handleInputChange}/>
                         <input type="text" name="category" placeholder="Category" value={task.category} onChange={handleInputChange}/>
-                        <input type="text" name="status" placeholder="Status" value={task.status} onChange={handleInputChange} disabled readOnly/>
-                        <input type="date" name="StartDate" placeholder="Start Date" value={task.endDate} onChange={handleInputChange} />
-                        <input type="date" name="endDate" placeholder="End Date" value={task.endDate} onChange={handleInputChange}/>
+                        <input type="text" name="status" placeholder="Status" value={task.status} onChange={handleInputChange}/>
+                        <input type="date" name="startDate" value={task.startDate} onChange={handleInputChange}/>
+                        <input type="date" name="endDate" value={task.endDate} onChange={handleInputChange}/>
                         <button onClick={addNewTask}>Add Task</button>
                   </form>
                 </div>
