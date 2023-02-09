@@ -3,18 +3,23 @@ import axios from 'axios'
 import Swal from "sweetalert2";
 import { useState } from 'react'
 import '../Stylesheets/SignUp.css'
+import Cookies from 'universal-cookie';
+
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const cookies = new Cookies();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/login", { email, password });
-
+      const { data } = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/login", { 
+        email,
+        password 
+      });
       if (data.status === "success") {
         Swal.fire({
           title: "Success!",
@@ -22,7 +27,7 @@ const Login = () => {
           icon: "success",
         });
         window.location.assign("/Home");
-
+        cookies.set("token", data.token, { path: "/" });
       } else {
         Swal.fire({
           title: "Error!",

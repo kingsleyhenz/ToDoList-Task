@@ -23,6 +23,7 @@ const Todo =()=>{
 
   const addNewTask = async (event) => {
     event.preventDefault()
+    console.log(task);
     try {
       const response = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/create", task);
       const data = response.data;

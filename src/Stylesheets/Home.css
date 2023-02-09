@@ -71,7 +71,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 55px;
+    font-size: 50px;
     font-weight: bold;
     background: -webkit-linear-gradient(45deg,yellow,orangered);
     -webkit-background-clip: text;
@@ -82,4 +82,12 @@ body{
     height: 20%;
     background-color: white;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    background: -webkit-linear-gradient(45deg,yellow,orangered);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900;
 }
