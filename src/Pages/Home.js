@@ -5,7 +5,6 @@ import SideBar from "../Component/SideBar.js";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import '../Stylesheets/Home.css'
-// to-do-list-task-silk.vercel.app
 
 const Home =()=>{
     const [date, setDate] = React.useState(new Date());
@@ -56,10 +55,10 @@ const Home =()=>{
                 <div className="time">{time}</div>
               </div>
               {tasks && tasks.length !== 0 ? (
-          <div className="completed">Total Task:{tasks.length}</div>
-) : (
-  <div className="completed">No tasks found.</div>
-)}
+                <div className="completed">Total Tasks: {tasks.length}</div>
+              ) : (
+                <div className="completed">No tasks found.</div>
+              )}
             </div>
           </div>
         </div>
@@ -68,4 +67,3 @@ const Home =()=>{
   }
   
   export default Home;
-  
