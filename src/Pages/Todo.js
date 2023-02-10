@@ -25,7 +25,7 @@ const Todo =()=>{
   const addNewTask = async (event) => {
     event.preventDefault()
     const cookie = new  Cookies()
-    const token = cookie.get('token')
+    const token = cookie.get("token")
   
     console.log(task);
     try {

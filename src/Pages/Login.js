@@ -21,6 +21,7 @@ const Login = () => {
         password 
       });
       if (data.status === "success") {
+        console.log(data);
         Swal.fire({
           title: "Success!",
           text: "You are now logged in!",
