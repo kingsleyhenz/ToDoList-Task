@@ -56,7 +56,7 @@ const Home =()=>{
                 <div className="time">{time}</div>
               </div>
               {tasks && tasks.length !== 0 ? (
-  <div className="completed">Total Task:{tasks.length}</div>
+          <div className="completed">Total Task:{tasks.length}</div>
 ) : (
   <div className="completed">No tasks found.</div>
 )}

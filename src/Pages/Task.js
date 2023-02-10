@@ -6,29 +6,39 @@ import Cookies from 'universal-cookie';
 
 const TaskView =()=>{
   const [tasks, setTasks] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       const cookie = new Cookies();
       const token = cookie.get("token");
       try {
-        const response = await axios.get("https://kingsleystodolist.onrender.com/api/v1/task", {
+        const response = await axios.get("https://kingsleystodolist.onrender.com/api/v1/task/allTasks", {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
         const data = response.data;
         if (data.status === "success") {
-          setTasks(data.tasks);
+          setTasks(data.data);
         } else {
-          console.error(data.message);
+          setErrorMessage(data.message);
         }
       } catch (error) {
-        console.error(error);
+        setErrorMessage(error.message);
       }
     };
     fetchData();
   }, []);
+
+  if (errorMessage) {
+    return (
+      <div className="error">
+        <p>{errorMessage}</p>
+      </div>
+    );
+  }
+
     return(
         <>
             <div className="wrapper">

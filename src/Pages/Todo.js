@@ -48,7 +48,7 @@ const Todo =()=>{
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: data.message,
+          text: "Error with task addition",
         })
       }
     } catch (error) {
