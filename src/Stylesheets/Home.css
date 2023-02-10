@@ -71,6 +71,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.time h2{
     font-size: 50px;
     font-weight: bold;
     background: -webkit-linear-gradient(45deg,yellow,orangered);
@@ -85,6 +87,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.completed h2{
     font-size: 50px;
     background: -webkit-linear-gradient(45deg,yellow,orangered);
     -webkit-background-clip: text;

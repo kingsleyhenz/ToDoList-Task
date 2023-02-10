@@ -52,12 +52,12 @@ const Home =()=>{
                 <div className="date">
                   <Calendar onChange={onChange} value={date} className="cal"/>
                 </div>
-                <div className="time">{time}</div>
+                <div className="time"><h2>{time}</h2></div>
               </div>
               {tasks && tasks.length !== 0 ? (
-                <div className="completed">Total Tasks: {tasks.length}</div>
+                <div className="completed"><h2>Total Tasks: {tasks.length}</h2></div>
               ) : (
-                <div className="completed">No tasks found.</div>
+                <div className="completed"><h2>No tasks found.</h2></div>
               )}
             </div>
           </div>
