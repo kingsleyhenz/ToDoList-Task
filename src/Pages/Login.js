@@ -26,8 +26,9 @@ const Login = () => {
           text: "You are now logged in!",
           icon: "success",
         });
+        cookies.set("token", data.data.token, { path: "/" });
         window.location.assign("/Home");
-        cookies.set("token", data.token, { path: "/" });
+        
       } else {
         Swal.fire({
           title: "Error!",

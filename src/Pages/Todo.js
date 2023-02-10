@@ -4,6 +4,7 @@ import axios from 'axios'
 import '../Stylesheets/Todo.css'
 import Swal from 'sweetalert2'
 import { useState, useEffect } from 'react';
+import Cookies from "universal-cookie";
 
 
 const Todo =()=>{
@@ -23,9 +24,16 @@ const Todo =()=>{
 
   const addNewTask = async (event) => {
     event.preventDefault()
+    const cookie = new  Cookies()
+    const token = cookie.get('token')
+  
     console.log(task);
     try {
-      const response = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/create", task);
+      const response = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/create", task,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      });
       const data = response.data;
       if (data.status === "success") {
         setTasks([...tasks, data.task]);

@@ -2,37 +2,33 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SideBar from "../Component/SideBar";
 import '../Stylesheets/Task.css'
+import Cookies from 'universal-cookie';
 
 const TaskView =()=>{
-    const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    setIsLoading(true);
-    axios.get("https://kingsleystodolist.onrender.com/api/v1/task/allTasks", {
-      // headers: {
-      // // authorization: `Bearer ${localStorage.getItem("token")}`
-      // }
-      })
-      .then(res => {
-        setTasks(res.data.data);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        setError(err);
-        setIsLoading(false);
-      });
+    const fetchData = async () => {
+      const cookie = new Cookies();
+      const token = cookie.get("token");
+      try {
+        const response = await axios.get("https://kingsleystodolist.onrender.com/api/v1/task", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const data = response.data;
+        if (data.status === "success") {
+          setTasks(data.tasks);
+        } else {
+          console.error(data.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
   }, []);
-
-  if (error) {
-    return <p>An error occurred: {error.message}</p>;
-  }
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
     return(
         <>
             <div className="wrapper">
