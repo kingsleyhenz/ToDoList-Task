@@ -10,6 +10,7 @@ const SideBar =()=>{
             <NavLink to="/Home">Home</NavLink>
             <NavLink to="/Todo">Add Todo</NavLink>
             <NavLink to="/task">Tasks</NavLink>
+            <NavLink to="/profile">My Profile</NavLink>
             </div>
             <div className="secondlayer">
             <NavLink to="/Logout">Logout</NavLink>

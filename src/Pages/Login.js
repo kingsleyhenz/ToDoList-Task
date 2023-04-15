@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 import { useState } from 'react'
 import '../Stylesheets/SignUp.css'
 import Cookies from 'universal-cookie';
+import img from '../images/sign.png'
+import { NavLink } from "react-router-dom";
 
 
 
@@ -47,14 +49,32 @@ const Login = () => {
   };
 
   return (
-    <div className="wrapper">
-      <form onSubmit={handleSubmit} id="log">
+    <div className='sign-wrp'>
+          <div className='left'>
+            <div className='left-txt'>
+            <span>L'aville Task Management System</span>
+            <p></p>
+            </div>
+            <div className='left-img'>
+              <img src={img} alt="" />
+            </div>
+          </div>
+          <div className='right'>
+            <div className='right-txt'>
+                <span>Login Now!</span>
+                <p>Hurry And Get Stared With L'aville Task Management System😆</p>
+              </div>
+               <form onSubmit={handleSubmit} id="log">
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
         <input type="password" placeholder="Password" value={password}onChange={(e) => setPassword(e.target.value)}/>
         <button type="submit">Login</button>
-      </form>
-    </div>
+        <p>Don't Have An Account Yet?😥 <NavLink to="/">Sign Up</NavLink></p>
+      </form> 
+          </div>
+        </div>
   );
 };
 
 export default Login;
+
+ 
