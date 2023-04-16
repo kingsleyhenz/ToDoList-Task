@@ -8,11 +8,15 @@ import '../Stylesheets/Home.css'
 import Cookies from "universal-cookie";
 
 const Home =()=>{
-    const [date, setDate] = React.useState(new Date());
-    const [time, setTime] = React.useState(new Date().toLocaleTimeString());
-    const [tasks, setTasks] = useState([]);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+  const [date, setDate] = React.useState(new Date());
+  const [time, setTime] = React.useState(new Date().toLocaleTimeString());
+  const [tasks, setTasks] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [incompleteTasks, setIncompleteTasks] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
+  const [crucialTasks, setCrucialTasks] = useState(0);
+  const [importantTasks, setImportantTasks] = useState(0);
   
     useEffect(() => {
       const intervalId = setInterval(() => {
@@ -23,26 +27,41 @@ const Home =()=>{
     
     useEffect(() => {
       const fetchData = async () => {
-      const cookie = new Cookies();
-      const token = cookie.get("token");
-      try {
-      const response = await axios.get("https://kingsleystodolist.onrender.com/api/v1/task/allTasks", {
-            headers: {
-            Authorization: `Bearer ${token}`
+        const cookie = new Cookies();
+        const token = cookie.get("token");
+        try {
+          const response = await axios.get(
+            "https://kingsleystodolist.onrender.com/api/v1/task/allTasks",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const data = response.data;
+          if (data.status === "success") {
+            setTasks(data.data);
+            setIncompleteTasks(
+              data.data.filter((task) => task.status === "Incomplete").length
+            );
+            setCompletedTasks(
+              data.data.filter((task) => task.status === "Completed").length
+            );
+            setCrucialTasks(
+              data.data.filter((task) => task.category === "Crucial").length
+            );
+            setImportantTasks(
+              data.data.filter((task) => task.category === "Important").length
+            );
+          } else {
+            setErrorMessage(data.message);
           }
-            });
-      const data = response.data;
-      if (data.status === "success") {
-          setTasks(data.data);
-      } else {
-          setErrorMessage(data.message);
-      }
-      } catch (error) {
+        } catch (error) {
           setErrorMessage(error.message);
-      }
+        }
       };
-          fetchData();
-      }, []);
+      fetchData();
+    }, []);
   
     const onChange = (selectedDate) => {
       setDate(selectedDate);
@@ -78,14 +97,13 @@ const Home =()=>{
                 </div>
                 <div className="time"><h2>{time}</h2></div>
               </div>
-              {/* {isLoading ? (
-          <div>Loading tasks...</div>
-        ) : tasks && tasks.length !== 0 ? (
-          <div className="completed"><h2>Total Tasks: {tasks.length}</h2></div>
-        ) : (
-          <div className="completed"><h2>No tasks found.</h2></div>
-        )} */}
             <CompletedTasks tasks={tasks}/>
+            <div className="task-cat">
+                <p>Incompleted Tasks: {incompleteTasks}</p>
+                <p>Completed Tasks: {completedTasks}</p>
+                <p>Crucial Tasks: {crucialTasks}</p>
+                <p>Important Tasks: {importantTasks}</p>
+            </div>
             </div>
           </div>
         </div>
