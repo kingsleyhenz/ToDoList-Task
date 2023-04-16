@@ -1,3 +1,13 @@
+.head{
+    background: linear-gradient(45deg,yellow,orangered);
+    height: 7%;
+    display: flex;
+    align-items: center;
+    padding-left: 2%;
+    font-size: 23px;
+    font-weight: 700;
+    color: white;
+ }
 #tasks-table{
     /* width: 1000px; */
     font-size:13px;

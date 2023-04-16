@@ -24,6 +24,12 @@ body{
 .head{
    background: linear-gradient(45deg,yellow,orangered);
    height: 7%;
+   display: flex;
+   align-items: center;
+   padding-left: 2%;
+   font-size: 23px;
+   font-weight: 700;
+   color: white;
 }
 .Homebody{
     background-color: whitesmoke;
@@ -47,8 +53,8 @@ body{
     height: 40%;
     border-radius: 10px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    /* align-items: end; */
+    /* justify-content: space-between; */
 }
 .date{
     width: 45%;
@@ -59,14 +65,14 @@ body{
 .cal{
     border: none;
     border-radius: 10px;
-    background: linear-gradient(45deg,yellow,orangered);
+    background-color: white;
     box-shadow: 5px 5px 5px rgb(190, 190, 190);
     color: rgb(226, 60, 0);
 }
 .time{
     width: 45%;
-    height: 50%;
-    background-color: white;
+    height: 20%;
+    /* background-color: white; */
     border-radius: 10px;
     display: flex;
     justify-content: center;

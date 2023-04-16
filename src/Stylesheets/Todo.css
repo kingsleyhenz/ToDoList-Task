@@ -25,6 +25,12 @@ body{
 .head{
    background: linear-gradient(45deg,yellow,orangered);
    height: 7%;
+   display: flex;
+   align-items: center;
+   padding-left: 2%;
+   font-size: 23px;
+   font-weight: 700;
+   color: white;
 }
 .homebody{
     width: 79%;
@@ -51,7 +57,7 @@ body{
     /* background-color: aqua; */
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
     margin: 0;
 }
 .add input{
@@ -61,6 +67,16 @@ body{
     height: 100%;
     border-radius: 10px;
     font-weight: 550;
+}
+select{
+    width: 90%;
+    height: 5%;
+    border: none;
+    /* border-bottom: 1px solid black; */
+    font-weight: 650;
+    font-size: 13px;
+    outline: none;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .stats{
     width: 100px;

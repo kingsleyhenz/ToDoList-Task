@@ -41,7 +41,9 @@ import Cookies from 'universal-cookie';
 return(
       <>
         <div className="wrapper">
-            <div className="head"></div>
+            <div className="head">
+              <p>L'aville TMS</p>
+            </div>
                 <div id="body-wrp">
                   <SideBar />
             <div className="homebody">
