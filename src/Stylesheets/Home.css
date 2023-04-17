@@ -59,7 +59,7 @@ body{
 .date{
     width: 45%;
     height: 100%;
-    background-color: rgb(228, 9, 9);
+    /* background-color: rgb(228, 9, 9); */
     border-radius: 10px;
 }
 .cal{

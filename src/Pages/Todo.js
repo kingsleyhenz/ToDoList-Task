@@ -74,16 +74,16 @@ const Todo =()=>{
                     <h3>Add New Tasks</h3>
                 <div className="todobox">
                     <form className="adding">
-                        <input type="text" name="head" placeholder="Title" value={task.head} onChange={handleInputChange}/>
-                        <input type="text" name="item" placeholder="Subject" value={task.item} onChange={handleInputChange}/>
-                        <select name="category" value={task.category} onChange={handleInputChange}>
+                        <input type="text" name="head" placeholder="Title" value={task.head} onChange={handleInputChange} required/>
+                        <input type="text" name="item" placeholder="Subject" value={task.item} onChange={handleInputChange} required/>
+                        <select name="category" value={task.category} onChange={handleInputChange} required>
                           <option value="">Select category</option>
                           <option value="Important">Important</option>
                           <option value="Crucial">Crucial</option>
                         </select>
-                        <input type="text" name="status" placeholder="Status" value={task.status} onChange={handleInputChange}/>
-                        <input type="date" name="startDate" value={task.startDate} onChange={handleInputChange}/>
-                        <input type="date" name="endDate" value={task.endDate} onChange={handleInputChange}/>
+                        <input type="text" name="status" placeholder="Status" value={task.status} onChange={handleInputChange} required/>
+                        <input type="date" name="startDate" value={task.startDate} onChange={handleInputChange} required/>
+                        <input type="date" name="endDate" value={task.endDate} onChange={handleInputChange} required/>
                         <button onClick={addNewTask}>Add Task</button>
                   </form>
                 </div>
