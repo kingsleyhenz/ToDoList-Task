@@ -39,7 +39,7 @@ body{
     display: flex;
     flex-direction: column;
     gap: 15px;
-    background-color: bisque;
+    /* background-color: bisque; */
 }
 .todobox{
     background-color: white;
