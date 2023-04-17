@@ -39,7 +39,7 @@ body{
     display: flex;
     flex-direction: column;
     gap: 15px;
-    /* background-color: bisque; */
+    background-color: bisque;
 }
 .todobox{
     background-color: white;
@@ -107,4 +107,38 @@ select{
     /* background-color: red; */
     width: 100%;
     height: 60%;
+}
+
+@media screen and (max-width:991px) {
+    .todobox{
+        background-color: white;
+        width: 100%;
+        height: 65%;
+    }
+    .adding{
+        height: 100%;
+    }
+}
+
+@media screen and (max-width:579px){
+    .homebody{
+        width: 90%;
+    }
+}
+@media screen and (max-width:475px) {
+    .todobox{
+        background-color: white;
+        width: 100%;
+        height: 65%
+    }
+    .adding{
+        gap: 35px;
+    }
+}
+@media screen and (max-width:390px){
+    .todobox{
+        background-color: white;
+        width: 100%;
+        height: 70%;
+    }
 }
