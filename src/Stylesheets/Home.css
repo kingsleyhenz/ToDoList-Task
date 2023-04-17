@@ -198,6 +198,14 @@ body{
 }
 
 @media screen and (max-width: 556px){
+    .Homebody{
+        gap: 4%;
+    }
+    #date-time{
+        /* background-color: white; */
+        width: 70%;
+        height: 40%;
+    }
     .date{
         width: 85%;
     }
@@ -208,11 +216,30 @@ body{
         width: 80%;
         font-size: 18px;
     }
+    .completed{
+        width: 75%;
+    }
+    .completed h2{
+        font-size: 25px;
+        background: -webkit-linear-gradient(45deg,yellow,orangered);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 900;
+    }
+    .task-cat{
+        /* background-color: red; */
+        width: 65%;
+        height: 25%;
+        grid-template-columns: repeat(1,1fr);
+    }
+    .task-cat p{
+        font-size: 15px;
+    }
 }
 
 @media screen and (max-width:475px) {
     #date-time{
-        height: 65%;
+        height: 40%;
         width: 85%;
     }
     .date{
@@ -220,10 +247,5 @@ body{
     }
     .time{
         width: 80%;
-    }
-}
-@media screen and (max-width:337px) {
-    .completed{
-        width: 75%;
     }
 }
