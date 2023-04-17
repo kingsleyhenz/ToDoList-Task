@@ -63,3 +63,9 @@ a:hover{
     border-right: 5px solid rgb(223, 59, 0);
     transition: 0.2s;
 }
+
+@media screen and (max-width:888px) {
+    .Bar{
+        display: none;
+    }
+}
