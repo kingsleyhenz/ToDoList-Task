@@ -69,6 +69,7 @@ body{
     background-color: white;
     box-shadow: 5px 5px 5px rgb(190, 190, 190);
     color: rgb(226, 60, 0);
+    font-size: 10px;
 }
 .time{
     width: 45%;
@@ -203,7 +204,7 @@ body{
     }
     #date-time{
         /* background-color: white; */
-        width: 70%;
+        width: 75%;
         height: 40%;
     }
     .date{
@@ -238,9 +239,12 @@ body{
 }
 
 @media screen and (max-width:475px) {
+    .Homebody{
+        width: 85%;
+    }
     #date-time{
         height: 40%;
-        width: 85%;
+        width: 100%;
     }
     .date{
         width: 100%;

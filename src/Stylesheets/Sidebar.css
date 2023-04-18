@@ -46,6 +46,7 @@
     color: black;
     font-size: 15px;
     font-weight: 700;
+    /* background-color: red; */
 }
 .secondlayer a{   
     width: 100%;
@@ -63,9 +64,37 @@ a:hover{
     border-right: 5px solid rgb(223, 59, 0);
     transition: 0.2s;
 }
+#ilnx{
+    display: none;
+    font-size: 20px;
+    color: rgb(116, 115, 115);
+}
 
 @media screen and (max-width:888px) {
     .Bar{
+        /* display: none; */
+        width: 10%;
+    }
+    #txtlnk{
         display: none;
+    }
+    #ilnx{
+        display: block;
+    }
+}
+@media screen and (max-width: 556px){
+    .Bar{
+        /* display: none; */
+        width: 10%;
+    }
+    #ilnx{
+        font-size: 15px;
+        display: block;
+    }
+}
+
+@media screen and (max-width:475px) {
+    .Bar{
+        width: 10%;
     }
 }
