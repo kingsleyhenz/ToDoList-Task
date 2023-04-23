@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Todo from "./Pages/Todo";
 import TaskView from "./Pages/Task";
+import Profile from './Pages/Profile';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/Home" element={<Home />} />
         <Route path="/todo" element={<Todo />} />
         <Route path="/task" element={<TaskView/>} />
+        <Route path="/profile" element={<Profile/>}/>
       </Routes>
     </>
   );

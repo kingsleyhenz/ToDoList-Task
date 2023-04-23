@@ -24,7 +24,7 @@ const SignUp = ()=>{
       if (response.data.status === 'success') {
         Swal.fire({
           title: 'Success!',
-          text: 'User has been registered successfully',
+          text: 'User has been registered successfully \n An otp has been sent to your email',
           icon: 'success'
         });
         window.location.assign('/login');

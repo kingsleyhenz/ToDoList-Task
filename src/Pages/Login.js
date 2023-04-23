@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("")
   const cookies = new Cookies();
 
   const handleSubmit = async (e) => {
@@ -20,7 +21,8 @@ const Login = () => {
     try {
       const { data } = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/login", { 
         email,
-        password 
+        password,
+        otp
       });
       if (data.status === "success") {
         console.log(data);
@@ -65,8 +67,9 @@ const Login = () => {
                 <p>Hurry And Get Stared With L'aville Task Management System😆</p>
               </div>
                <form onSubmit={handleSubmit} id="log">
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-        <input type="password" placeholder="Password" value={password}onChange={(e) => setPassword(e.target.value)}/>
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+        <input type="password" placeholder="Password" value={password}onChange={(e) => setPassword(e.target.value)} required/>
+        <input type="otp" placeholder="Enter Otp" value={otp} onChange={(e) => setOtp(e.target.value)} required/>
         <button type="submit">Login</button>
         <p>Don't Have An Account Yet?😥 <NavLink to="/">Sign Up</NavLink></p>
       </form> 

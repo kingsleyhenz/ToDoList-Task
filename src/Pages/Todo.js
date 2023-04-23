@@ -3,6 +3,7 @@ import SideBar from "../Component/SideBar";
 import axios from 'axios'
 import '../Stylesheets/Todo.css'
 import Swal from 'sweetalert2'
+import {BallTriangle} from 'react-loader-spinner';
 import { useState, useEffect } from 'react';
 import Cookies from "universal-cookie";
 
@@ -17,6 +18,7 @@ const Todo =()=>{
     endDate: "" 
   });
   const [tasks, setTasks] = useState([]);
+  const [loading, setloading] = useState(true);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
@@ -62,8 +64,20 @@ const Todo =()=>{
     }
   };
 
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setloading(false);
+    }, 1000); // Set isLoading to false after 5 seconds
+    return () => clearTimeout(timerId);
+  }, []);
+
     return(
         <>
+        {loading ? (
+        <div className="loader-container">
+          <BallTriangle type="Oval" color="orangered" height={80} width={80} />
+        </div>
+      ) : (
         <div className="wrapper">
     <div className="head">
       <p>L'aville TMS</p>
@@ -81,7 +95,7 @@ const Todo =()=>{
                           <option value="Important">Important</option>
                           <option value="Crucial">Crucial</option>
                         </select>
-                        <input type="text" name="status" placeholder="Status" value={task.status} onChange={handleInputChange} required/>
+                        <input type="text" name="status" placeholder="Status" value={task.status} onChange={handleInputChange} required readOnly/>
                         <input type="date" name="startDate" value={task.startDate} onChange={handleInputChange} required/>
                         <input type="date" name="endDate" value={task.endDate} onChange={handleInputChange} required/>
                         <button onClick={addNewTask}>Add Task</button>
@@ -90,6 +104,7 @@ const Todo =()=>{
             </div>
           </div>
       </div>
+      )}
         </>
     )
 }

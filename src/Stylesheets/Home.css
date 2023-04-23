@@ -196,19 +196,27 @@ body{
     .date{
         width: 75%;
     }
+    .time{
+        width: 80%;
+    }
 }
 
 @media screen and (max-width: 556px){
+    .body-wrp{
+        flex-direction: column-reverse;
+    }
     .Homebody{
-        gap: 4%;
+        width: 100%;
     }
     #date-time{
-        /* background-color: white; */
-        width: 75%;
-        height: 40%;
+        height: 45%;
+        width: 100%;
     }
     .date{
-        width: 85%;
+        width: 100%;
+    }
+    .time{
+        width: 80%;
     }
     .time h2{
         font-size: 30px;
@@ -238,18 +246,4 @@ body{
     }
 }
 
-@media screen and (max-width:475px) {
-    .Homebody{
-        width: 85%;
-    }
-    #date-time{
-        height: 40%;
-        width: 100%;
-    }
-    .date{
-        width: 100%;
-    }
-    .time{
-        width: 80%;
-    }
-}
+

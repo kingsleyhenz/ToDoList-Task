@@ -82,19 +82,30 @@ a:hover{
         display: block;
     }
 }
-@media screen and (max-width: 556px){
+
+@media screen and (max-width:556px) {
     .Bar{
-        /* display: none; */
-        width: 10%;
+        flex-direction: row;
+        width: 100%;
+        height: 5%;
     }
     #ilnx{
         font-size: 17px;
         display: block;
     }
-}
-
-@media screen and (max-width:475px) {
-    .Bar{
+    .firstlayer{
+        width: 90%;
+        height: 90%;
+        flex-direction: row;
+        align-items: center;
+    }
+    .secondlayer{
         width: 10%;
+        height: 90%;
+        flex-direction: row;
+        align-items: center;
+    }
+    .firstlayer a, .secondlayer a{
+        height: 100%;
     }
 }

@@ -6,13 +6,14 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import '../Stylesheets/Home.css'
 import Cookies from "universal-cookie";
+import {BallTriangle} from 'react-loader-spinner';
 
 const Home =()=>{
   const [date, setDate] = React.useState(new Date());
   const [time, setTime] = React.useState(new Date().toLocaleTimeString());
   const [tasks, setTasks] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setloading] = useState(true);
   const [incompleteTasks, setIncompleteTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
   const [crucialTasks, setCrucialTasks] = useState(0);
@@ -41,6 +42,7 @@ const Home =()=>{
           const data = response.data;
           if (data.status === "success") {
             setTasks(data.data);
+            setloading(false);
             setIncompleteTasks(
               data.data.filter((task) => task.status === "Incomplete").length
             );
@@ -81,6 +83,11 @@ const Home =()=>{
   
     return (
       <>
+      {loading ? (
+        <div className="loader-container">
+          <BallTriangle type="Oval" color="orangered" height={80} width={80} />
+        </div>
+      ) : (
         <div className="wrapper">
           <div className="head">
             <p>L'aville TMS</p>
@@ -107,6 +114,7 @@ const Home =()=>{
             </div>
           </div>
         </div>
+        )}
       </>
     );
   }
