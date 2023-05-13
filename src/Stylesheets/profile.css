@@ -1,5 +1,18 @@
 .probox{
-    /* background-color: aqua; */
+    background-color: white;
     width: 100%;
     height: 95%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+#pro-i{
+    font-size: 75px;
+    color: orange;
+}
+
+.det-wrp{
+    width: 100%;
+    height: 70%;
+    background-color: whitesmoke;
 }

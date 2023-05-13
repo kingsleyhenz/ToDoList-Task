@@ -21,14 +21,17 @@ const SignUp = ()=>{
         email,
         password,
       });
-      if (response.data.status === 'success') {
-        Swal.fire({
-          title: 'Success!',
-          text: 'User has been registered successfully \n An otp has been sent to your email',
-          icon: 'success'
-        });
-        window.location.assign('/login');
-      }
+      Swal.fire({
+        title: 'Success!',
+        text: 'User has been registered successfully \n An otp has been sent to your email',
+        icon: 'success',
+        timer: 5000,
+        timerProgressBar: true,
+        onClose: () => {
+          window.location.assign('/login');
+        }
+      });
+      
     } catch (error) {
       if (error.response && error.response.data) {
         Swal.fire({

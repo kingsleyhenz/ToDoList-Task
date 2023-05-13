@@ -76,11 +76,11 @@ const TaskView =()=>{
                       {tasks.map(task => (
                         <tr key={task._id}>
                           <td>{task.head}</td>
-                          <td>{task.item}</td>
+                          <td id='enh'>{task.item}</td>
                           <td>{task.category}</td>
                           <td>{task.status}</td>
-                          <td>{task.startDate}</td>
-                          <td>{task.endDate}</td>
+                          <td>{new Date(task.startDate).toLocaleDateString()}</td>
+                          <td>{new Date(task.endDate).toLocaleDateString()}</td>
                           <td><button id='upd'>Update</button></td>
                           <td><button id='del'>Delete</button></td>
                         </tr>

@@ -19,7 +19,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/login", { 
+      // const { data } = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/login", { 
+        const { data } = await axios.post("http://localhost:10000/api/v1/task/login", {
         email,
         password,
         otp
@@ -30,10 +31,12 @@ const Login = () => {
           title: "Success!",
           text: "You are now logged in!",
           icon: "success",
+          timer: 10000,
+          timerProgressBar: true
         });
         cookies.set("token", data.data.token, { path: "/" });
         window.location.assign("/Home");
-        
+
       } else {
         Swal.fire({
           title: "Error!",
@@ -49,6 +52,7 @@ const Login = () => {
       });
     }
   };
+  
 
   return (
     <div className='sign-wrp'>
