@@ -19,8 +19,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      // const { data } = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/login", { 
-        const { data } = await axios.post("http://localhost:10000/api/v1/task/login", {
+      const { data } = await axios.post("https://kingsleystodolist.onrender.com/api/v1/task/login", { 
         email,
         password,
         otp
