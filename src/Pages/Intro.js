@@ -14,7 +14,7 @@ const SignUp = ()=>{
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://kingsleystodolist.onrender.com/api/v1/task/register', {
+      await axios.post('https://kingsleystodolist.onrender.com/api/v1/task/register', {
         name,
         username,
         email,
@@ -29,7 +29,6 @@ const SignUp = ()=>{
           window.location.assign('/login');
         }
       });
-      
     } catch (error) {
       if (error.response && error.response.data) {
         Swal.fire({
@@ -49,7 +48,7 @@ const SignUp = ()=>{
         });
       }
     }
-  }
+  };
     return(
         <>
         <div className='sign-wrp'>
