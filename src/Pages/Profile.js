@@ -47,7 +47,6 @@ const Profile = () =>{
                   <p>Username: {userData?.username}</p>
                   <p>Email: {userData?.email}</p>
                   </div>
-                  <div className='chng-det'>
                     <div className='chng-bx'>
                       <input type="text" placeholder='Edit Name'/>
                       <input type="text" placeholder='Edit Username'/>
@@ -55,7 +54,6 @@ const Profile = () =>{
                       <input type="text" placeholder='Old Password'/>
                       <input type="text" placeholder='New Password'/>
                       <button>Update profile</button>
-                    </div>
                   </div>
                 </div>
                 </div>

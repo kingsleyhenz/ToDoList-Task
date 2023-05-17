@@ -16,7 +16,7 @@
 .det-wrp{
     width: 100%;
     height: 80%;
-    /* background-color: whitesmoke; */
+    /* background-color: rgb(236, 16, 16); */
     display: flex;
     justify-content: space-between;
 }
@@ -37,49 +37,89 @@
     align-items: center;
     padding: 0 1%;
 }
-.chng-det{
-    /* background-color: red; */
-    width: 50%;
-    height: 100%;
-    padding: 0 1%;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    gap: 5%;
-}
-.em-chng{
-    background-color: whitesmoke;
-    width: 70%;
-    height: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.em-chng > button{
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 13px;
-}
-.em-chng > button:hover{
-    color: gray;
-}
 .chng-bx{
     /* background-color: springgreen; */
-    width: 100%;
-    height: 75%;
+    width: 50%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     align-items: end;
     gap: 3%;
+    padding: 0% 1%;
 }
 .chng-bx > input{
     width: 70%;
-    height: 14%;
+    height: 15%;
     padding: 0 1%;
     border: none;
     background-color: whitesmoke;
     outline: none;
     font-size: 15px;
     font-weight: 500;
+}
+
+@media screen and (max-width:1024px) {
+    .probox{
+        gap: 4%;
+    }
+    .det-wrp{
+        flex-direction: column;
+        align-items: center;
+        gap: 5%;
+    }
+    .def-det{
+        align-items: center;
+        height: 35%;
+        width: 90%;
+    }
+    .def-det p{
+        height: 30%;
+        width: 85%;
+    }
+    .chng-bx{
+        align-items: center;
+        width: 90%;
+    }
+    .chng-bx > input{
+        width: 85%;
+        height: 18%;
+    }
+}
+@media screen and (max-width:888px) {
+    .def-det{
+        align-items: center;
+        height: 35%;
+        width: 100%;
+    }
+    .def-det p{
+        height: 30%;
+        width: 95%;
+    }
+    .chng-bx{
+        align-items: center;
+        width: 100%;
+    }
+    .chng-bx > input{
+        width: 95%;
+        height: 18%;
+    }
+}
+
+@media screen and (max-width: 688px){
+    .def-det{
+        flex-direction: column;
+        align-items: center;
+        gap: 9%;
+    }
+    .def-det p{
+        height: 25%;
+        width: 95%;
+        font-size: 15px;
+    }
+    .chng-bx{
+        gap: 6%;
+    }
+    .chng-bx > input{
+        height: 15%;
+    }
 }
