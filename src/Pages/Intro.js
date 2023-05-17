@@ -14,21 +14,32 @@ const SignUp = ()=>{
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('https://kingsleystodolist.onrender.com/api/v1/task/register', {
+      const response = await axios.post('https://kingsleystodolist.onrender.com/api/v1/task/register', {
+      //  const response =  await axios.post('http://localhost:10000/api/v1/task/register', {
         name,
         username,
         email,
       });
-      Swal.fire({
-        title: 'Success!',
-        text: 'User has been registered successfully \n An otp has been sent to your email',
-        icon: 'success',
-        timer: 5000,
-        timerProgressBar: true,
-        onClose: () => {
-          window.location.assign('/login');
-        }
-      });
+      if (response.data.status === 'success') {
+        Swal.fire({
+          title: 'Success!',
+          text: 'User has been registered successfully. Your password has been sent to your email.',
+          icon: 'success',
+          timer: 5000,
+          timerProgressBar: true,
+          onClose: () => {
+            window.location.href = '/login';
+          },
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response.data.data,
+          icon: 'error',
+          timer: 5000,
+          timerProgressBar: true,
+        });
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         Swal.fire({
@@ -36,7 +47,7 @@ const SignUp = ()=>{
           text: error.response.data.data,
           icon: 'error',
           timer: 5000,
-          timerProgressBar: true
+          timerProgressBar: true,
         });
       } else {
         Swal.fire({
@@ -44,7 +55,7 @@ const SignUp = ()=>{
           text: 'An unknown error occurred',
           icon: 'error',
           timer: 5000,
-          timerProgressBar: true
+          timerProgressBar: true,
         });
       }
     }
