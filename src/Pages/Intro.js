@@ -10,7 +10,6 @@ const SignUp = ()=>{
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,7 +18,6 @@ const SignUp = ()=>{
         name,
         username,
         email,
-        password,
       });
       Swal.fire({
         title: 'Success!',
@@ -37,13 +35,17 @@ const SignUp = ()=>{
         Swal.fire({
           title: 'Error!',
           text: error.response.data.data,
-          icon: 'error'
+          icon: 'error',
+          timer: 5000,
+          timerProgressBar: true
         });
       } else {
         Swal.fire({
           title: 'Error!',
           text: 'An unknown error occurred',
-          icon: 'error'
+          icon: 'error',
+          timer: 5000,
+          timerProgressBar: true
         });
       }
     }
@@ -69,7 +71,6 @@ const SignUp = ()=>{
                 <input type="text" id="name" placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} required/>
                 <input type="text" id="username" value={username} placeholder='Username' onChange={(e) => setUsername(e.target.value)} required/>
                 <input type="email" id="email" value={email} placeholder='Email' onChange={(e) => setEmail(e.target.value)} required/>
-                <input type="text" id="password" value={password} placeholder='Password' onChange={(e) => setPassword(e.target.value)} required/>
                 <button type='submit'>Sign Up Now</button> 
                 <p>Already Have An Account? <NavLink to="/login">Log In</NavLink></p>
             </form> 
