@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import SideBar from "../Component/SideBar";
-import {BallTriangle} from 'react-loader-spinner';
+import { BallTriangle } from 'react-loader-spinner';
 import '../Stylesheets/Task.css';
 import Cookies from 'universal-cookie';
 
-const TaskView =()=>{
+const TaskView = () => {
   const [tasks, setTasks] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setloading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,18 +24,88 @@ const TaskView =()=>{
         const data = response.data;
         if (data.status === "success") {
           setTasks(data.data);
-          setloading(false);
+          setLoading(false);
         } else {
           setErrorMessage(data.message);
-          setloading(false);
+          setLoading(false);
         }
       } catch (error) {
         setErrorMessage(error.message);
-        setloading(false);
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  const handleComplete = async (taskId) => {
+    const cookie = new Cookies();
+      const token = cookie.get("token");
+    try {
+      const response = await axios.patch(`https://kingsleystodolist.onrender.com/api/v1/task/completeTask/${taskId}`,null,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = response.data;
+      if (data.status === 'success') {
+        Swal.fire({
+          title: 'Success!',
+          text: data.message,
+          icon: 'success',
+        });
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task._id === taskId ? { ...task, status: 'Completed' } : task
+          )
+        );
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: data.message,
+          icon: 'error',
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+      });
+    }
+  };
+
+  const handleDelete = async (taskId) => {
+    const cookie = new Cookies();
+    const token = cookie.get("token");
+    try {
+      const response = await axios.delete(`http://localhost:10000/api/v1/task/deleteTask/${taskId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = response.data;
+      if (data.status === 'success') {
+        Swal.fire({
+          title: 'Success!',
+          text: data.message,
+          icon: 'success',
+        });
+        setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: data.message,
+          icon: 'error',
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+      });
+    }
+  };
 
   if (errorMessage) {
     return (
@@ -44,7 +115,7 @@ const TaskView =()=>{
     );
   }
 
-  return(
+  return (
     <>
       {loading ? (
         <div className="loader-container">
@@ -73,7 +144,7 @@ const TaskView =()=>{
                       </tr>
                     </thead>
                     <tbody>
-                      {tasks.map(task => (
+                      {tasks.map((task) => (
                         <tr key={task._id}>
                           <td>{task.head}</td>
                           <td id='enh'>{task.item}</td>
@@ -81,8 +152,10 @@ const TaskView =()=>{
                           <td>{task.status}</td>
                           <td>{new Date(task.startDate).toLocaleDateString()}</td>
                           <td>{new Date(task.endDate).toLocaleDateString()}</td>
-                          <td><button id='upd'>Update</button></td>
-                          <td><button id='del'>Delete</button></td>
+                          <td>
+                            <button id='upd' onClick={() => handleComplete(task._id)}>Complete</button>
+                          </td>
+                          <td><button id='del' onClick={() => handleDelete(task._id)}>Delete</button></td>
                         </tr>
                       ))}
                     </tbody>
