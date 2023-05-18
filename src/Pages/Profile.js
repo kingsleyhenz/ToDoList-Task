@@ -34,13 +34,19 @@ const Profile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
+    const cookie = new Cookies();
+      const token = cookie.get('token');
     try {
-      const { data } = await axios.patch('https://kingsleystodolist.onrender.com/api/v1/task/updateProfile', {
+      const { data } = await axios.patch('https://kingsleystodolist.onrender.com/api/v1/task/updateUser', {
+        // const { data } = await axios.patch('http://localhost:10000/api/v1/task/updateUser', {
         name,
         username,
         oldPassword,
         newPassword
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}` // Replace "yourAccessToken" with the actual access token
+        }
       });
 
       if (data.status === 'success') {
