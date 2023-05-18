@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { RiMapPinUserFill } from 'react-icons/ri';
 import axios from 'axios';
 import '../Stylesheets/profile.css'
+import Cookies from 'universal-cookie';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -14,8 +15,14 @@ const Profile = () => {
 
   useEffect(() => {
     const getUserData = async () => {
+      const cookie = new Cookies();
+      const token = cookie.get('token');
       try {
-        const response = await axios.get('https://kingsleystodolist.onrender.com/api/v1/task/getUser');
+        const response = await axios.get('https://kingsleystodolist.onrender.com/api/v1/task/getUser',{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUserData(response.data.data);
       } catch (error) {
         console.error(error);
