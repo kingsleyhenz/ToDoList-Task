@@ -123,3 +123,12 @@
         height: 15%;
     }
 }
+
+@media screen and (max-width: 429px){
+    .def-det p{
+        font-size: 12px;
+    }
+    .chng-bx > input{
+        font-size: 12px;
+    }
+}
