@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 import {BallTriangle} from 'react-loader-spinner';
 import { useState, useEffect } from 'react';
 import Cookies from "universal-cookie";
+import withAuth from "../Component/withAuth";
 
 
 const Todo =()=>{
@@ -109,4 +110,4 @@ const Todo =()=>{
     )
 }
 
-export default Todo
+export default withAuth(Todo)

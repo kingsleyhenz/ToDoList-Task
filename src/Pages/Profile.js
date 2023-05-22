@@ -5,6 +5,7 @@ import { RiMapPinUserFill } from 'react-icons/ri';
 import axios from 'axios';
 import '../Stylesheets/profile.css'
 import Cookies from 'universal-cookie';
+import withAuth from '../Component/withAuth';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -105,4 +106,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withAuth(Profile);

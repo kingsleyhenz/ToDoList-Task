@@ -5,6 +5,7 @@ import SideBar from "../Component/SideBar";
 import { BallTriangle } from 'react-loader-spinner';
 import '../Stylesheets/Task.css';
 import Cookies from 'universal-cookie';
+import withAuth from '../Component/withAuth';
 
 const TaskView = () => {
   const [tasks, setTasks] = useState([]);
@@ -172,4 +173,4 @@ const TaskView = () => {
   );
 };
 
-export default TaskView;
+export default withAuth(TaskView);

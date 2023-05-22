@@ -7,6 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 import '../Stylesheets/Home.css'
 import Cookies from "universal-cookie";
 import {BallTriangle} from 'react-loader-spinner';
+import withAuth from '../Component/withAuth';
 
 const Home =()=>{
   const [date, setDate] = React.useState(new Date());
@@ -119,4 +120,4 @@ const Home =()=>{
     );
   }
   
-  export default Home;
+  export default withAuth(Home);
