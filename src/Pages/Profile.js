@@ -6,8 +6,10 @@ import axios from 'axios';
 import '../Stylesheets/profile.css'
 import Cookies from 'universal-cookie';
 import withAuth from '../Component/withAuth';
+import {BallTriangle} from 'react-loader-spinner';
 
 const Profile = () => {
+  const [loading, setloading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -74,7 +76,20 @@ const Profile = () => {
     }
   };
 
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setloading(false);
+    }, 1000); // Set isLoading to false after 5 seconds
+    return () => clearTimeout(timerId);
+  }, []);
+
   return (
+    <>
+     {loading ? (
+        <div className="loader-container">
+          <BallTriangle type="Oval" color="orangered" height={80} width={80} />
+        </div>
+      ) : (
     <div className="wrapper">
       <div className="head">
         <p>L'aville TMS</p>
@@ -103,6 +118,8 @@ const Profile = () => {
         </div>
       </div>
     </div>
+      )}
+    </>
   );
 };
 
