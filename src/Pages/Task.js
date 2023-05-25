@@ -79,7 +79,7 @@ const TaskView = () => {
     const cookie = new Cookies();
     const token = cookie.get("token");
     try {
-      const response = await axios.delete(`http://localhost:10000/api/v1/task/deleteTask/${taskId}`, {
+      const response = await axios.delete(`https://kingsleystodolist.onrender.com/api/v1/task/deleteTask/${taskId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
