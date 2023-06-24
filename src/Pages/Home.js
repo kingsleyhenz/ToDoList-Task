@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import {  useState ,useEffect } from "react";
 import SideBar from "../Component/SideBar.js";
-import Calendar from "react-calendar";
+import { NavLink } from "react-router-dom";
 import 'react-calendar/dist/Calendar.css';
 import '../Stylesheets/Home.css'
 import Cookies from "universal-cookie";
@@ -65,19 +65,14 @@ const Home =()=>{
       };
       fetchData();
     }, []);
-  
-    const onChange = (selectedDate) => {
-      setDate(selectedDate);
-    };
-
     const CompletedTasks = ({ tasks }) => {
       if (tasks && tasks.length !== 0) {
         return (
-          <div className="completed"><h2>Total Tasks: {tasks.length}</h2></div>
+          <div className="completed" id="cmp">{tasks.length}</div>
         );
       } else {
         return (
-          <div className="completed"><h2>No tasks found.</h2></div>
+          <div className="completed" id="cmp">0</div>
         );
       }
     };
@@ -96,21 +91,39 @@ const Home =()=>{
           <div className="body-wrp">
             <SideBar />
             <div className="Homebody">
-              <div id="wlcmtxt">
-                <h3>Home Page</h3>
-              </div>
-              <div id="date-time">
-                <div className="date">
-                  <Calendar onChange={onChange} value={date} className="cal"/>
+              <div id="wlcmbx">
+                <div className="hdbx">
+                  <p>Welcome Back black henz, it is sure a wonderful day to get tasking</p>
+                  <NavLink to="/Todo"><p>Add Task</p></NavLink>
                 </div>
-                <div className="time"><h2>{time}</h2></div>
+                <div className="hdbx">
+                  <p>Hi black henz to take a look at all your tasks and see what needs to be completed</p>
+                  <NavLink to="/Task"><p>View Tasks</p></NavLink>
+                </div>
+                <div className="hdbx">
+                  <p>Total Tasks:</p>
+                <CompletedTasks tasks={tasks}/>
+                </div>
               </div>
-            <CompletedTasks tasks={tasks}/>
+            <div className="scndry">
             <div className="task-cat">
-                <p>Incompleted Tasks: {incompleteTasks}</p>
-                <p>Completed Tasks: {completedTasks}</p>
-                <p>Crucial Tasks: {crucialTasks}</p>
-                <p>Important Tasks: {importantTasks}</p>
+                <div className="cmpbx">
+                 <p> Incompleted Tasks: </p>
+                  <p>{incompleteTasks}</p>
+                  </div>
+                <div className="cmpbx">
+                  <p>Completed Tasks: </p>
+                  <p>{completedTasks}</p>
+                  </div>
+                <div className="cmpbx">
+                  <p>Crucial Tasks:</p> 
+                  <p>{crucialTasks}</p>
+                  </div>
+                <div className="cmpbx">
+                  <p>Important Tasks:</p> 
+                  <p>{importantTasks}</p>
+                  </div>
+            </div>
             </div>
             </div>
           </div>

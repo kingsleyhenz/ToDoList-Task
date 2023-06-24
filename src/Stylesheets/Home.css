@@ -20,6 +20,7 @@ body{
     width: 100%;
     height: 93%;
     display: flex;
+    /* overflow-x: scroll; */
 }
 .head{
    background: linear-gradient(45deg,yellow,orangered);
@@ -40,52 +41,38 @@ body{
     gap: 6%;
     padding: 5px 2%;
 }
-#wlcmtxt{
+#wlcmbx{
+    /* background-color: rgb(192, 79, 79); */
+    width: 100%;
+    height: 35%;
+    display: flex;
+    justify-content: space-between;
+}
+.hdbx{
     background-color: whitesmoke;
     width: 30%;
-    height: 5%;
-    font-size: 20px;
-    /* border-radius: 10px; */
-}
-#date-time{
-    /* background-color: white; */
-    width: 70%;
-    height: 40%;
-    border-radius: 10px;
+    height: 100%;
+    box-shadow: 2px 3px 6px rgb(224, 223, 223);
+    text-align: center;
     display: flex;
-    align-items: end;
-    gap: 3%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1%;
+    font-size: 16px;
+    gap: 5%;
 }
-.date{
-    width: 45%;
-    height: 100%;
-    /* background-color: rgb(228, 9, 9); */
-    border-radius: 10px;
-}
-.cal{
-    height: 100%;
-    border: none;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 5px 5px 5px rgb(190, 190, 190);
-    color: rgb(226, 60, 0);
-    font-size: 10px;
-}
-.time{
-    width: 45%;
-    height: 20%;
-    /* background-color: white; */
-    border-radius: 10px;
+#cmp{
+    width: 100%;
+    text-align: center;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
-.time h2{
-    font-size: 50px;
-    font-weight: bold;
-    background: -webkit-linear-gradient(45deg,yellow,orangered);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.scndry{
+    /* background-color: aqua; */
+    width: 100%;
+    height: 60%;
+    display: flex;
 }
 .completed{
     width: 25%;
@@ -95,6 +82,19 @@ body{
     display: flex;
     /* justify-content: center; */
     align-items: center;
+}
+.cmpbx{
+    background-color: whitesmoke;
+    width: 95%;
+    height: 85%;
+    box-shadow: 2px 3px 10px rgb(230, 230, 230);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    font-weight: 600;
+    background: -webkit-linear-gradient(45deg,yellow,orangered);
 }
 .completed h2{
     font-size: 40px;
@@ -106,61 +106,14 @@ body{
 .task-cat{
     /* background-color: red; */
     width: 55%;
-    height: 20%;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(2,1fr);
 }
 .task-cat p{
-    font-size: 18px;
-    background: -webkit-linear-gradient(45deg,yellow,orangered);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 900;
+    /* font-size: 38px; */
 }
 @media screen and (max-width:995px) {
-    #date-time{
-        /* background-color: white; */
-        width: 70%;
-        height: 40%;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: normal;
-        justify-content: space-between;
-    }
-    .date{
-        width: 45%;
-        height: 76%;
-        /* background-color: rgb(228, 9, 9); */
-        border-radius: 10px;
-    }
-    .cal{
-        height: 100%;
-        border: none;
-        border-radius: 10px;
-        background-color: white;
-        box-shadow: 5px 5px 5px rgb(190, 190, 190);
-        color: rgb(226, 60, 0);
-        font-size: 0.1rem;
-        display: flex;
-        flex-direction: column;
-    }
-    .time{
-        width: 45%;
-        height: 20%;
-        /* background-color: rgb(226, 6, 6); */
-        border-radius: 10px;
-        display: flex;
-        justify-content: normal;
-        align-items: center;
-    }
-    .time h2{
-        font-size: 35px;
-        font-weight: bold;
-        background: -webkit-linear-gradient(45deg,yellow,orangered);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
     .completed{
         width: 60%;
     }
@@ -169,76 +122,53 @@ body{
     }
     .task-cat{
         /* background-color: red; */
-        width: 55%;
-        height: 40%;
+        width: 100%;
         display: grid;
-        grid-template-columns: repeat(1,1fr);
+        grid-template-columns: repeat(2,1fr);
     }
     .task-cat p{
         font-size: 18px;
-        background: -webkit-linear-gradient(45deg,yellow,orangered);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 900;
     }
 }
 @media screen and (max-width: 888px) {
-    #date-time{
-        /* background-color: white; */
-        width: 70%;
-        height: 55%;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: normal;
-        justify-content: space-between;
-    }
-    .date{
-        width: 75%;
-    }
-    .time{
-        width: 80%;
+    .Homebody{
+        overflow-y: scroll;
+        height: 90vh
     }
 }
-
+@media screen and (max-width:709px) {
+    #wlcmbx{
+        height: 700px;
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        justify-items: center;
+    }
+    .hdbx{
+        width: 80%;
+        height: 90%;
+    }
+}
 @media screen and (max-width: 556px){
     .body-wrp{
         flex-direction: column-reverse;
     }
     .Homebody{
         width: 100%;
+        gap: 2%;
     }
-    #date-time{
-        height: 45%;
+    .scndry{
+        height: 70%;
+        justify-content: center;
+    }
+    .cmpbx{
         width: 100%;
-    }
-    .date{
-        width: 100%;
-    }
-    .time{
-        width: 80%;
-    }
-    .time h2{
-        font-size: 30px;
-    }
-    #wlcmtxt{
-        width: 80%;
-        font-size: 18px;
     }
     .completed{
         width: 75%;
     }
-    .completed h2{
-        font-size: 25px;
-        background: -webkit-linear-gradient(45deg,yellow,orangered);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 900;
-    }
     .task-cat{
-        /* background-color: red; */
-        width: 65%;
-        height: 25%;
+        /* background-color: rgb(238, 227, 227); */
+        width: 100%;
         grid-template-columns: repeat(1,1fr);
     }
     .task-cat p{
@@ -246,4 +176,11 @@ body{
     }
 }
 
-
+@media screen and (max-width:400px){
+    .hdbx p{
+        font-size: 12px;
+    }
+    .task-cat p{
+        font-size: 12px;
+    }
+}
