@@ -6,16 +6,18 @@ import Home from "./Pages/Home";
 import Todo from "./Pages/Todo";
 import TaskView from "./Pages/Task";
 import Profile from "./Pages/Profile";
+import CreatePassword from "./Pages/CreatePassword";
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 
 function App() {
   useEffect(() => {
-    // Add fade-in animation to the app on load
     document.body.classList.add('fade-in');
   }, []);
 
   return (
     <div className="app-container">
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
@@ -23,6 +25,7 @@ function App() {
         <Route path="/todo" element={<Todo />} />
         <Route path="/task" element={<TaskView />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/create-password" element={<CreatePassword />} />
       </Routes>
     </div>
   );

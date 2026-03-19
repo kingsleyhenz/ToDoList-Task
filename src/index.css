@@ -171,13 +171,33 @@ body {
   box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
 }
 
-/* Loading Spinner */
+/* Modern Minimalist Loader */
 .loader-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: var(--gray-50);
+  width: 100%;
+  background-color: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.modern-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #f1f5f9;
+  border-radius: 50%;
+  border-top-color: #0f172a;
+  animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Professional Card */

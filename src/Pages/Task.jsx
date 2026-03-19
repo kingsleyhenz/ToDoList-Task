@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 import SideBar from "../Component/SideBar";
 import { BallTriangle } from 'react-loader-spinner';
 import '../Stylesheets/Task.css';
 import Cookies from 'universal-cookie';
 import withAuth from '../Component/withAuth';
-import { TbList, TbCheck, TbTrash, TbCalendar, TbFlag, TbClock, TbCheckbox } from 'react-icons/tb';
+import { 
+  TbList, 
+  TbCheck, 
+  TbTrash, 
+  TbCalendar, 
+  TbFlag, 
+  TbClock, 
+  TbCheckbox,
+  TbPackageOff
+} from 'react-icons/tb';
+import BASE_URL from "../apiConfig";
 
 const TaskView = () => {
   const [tasks, setTasks] = useState([]);
-  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,21 +27,16 @@ const TaskView = () => {
       const cookie = new Cookies();
       const token = cookie.get("token");
       try {
-        const response = await axios.get("https://kingsleystodolist.onrender.com/api/v1/task/allTasks", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+        const { data } = await axios.get(`${BASE_URL}/allTasks`, {
+          headers: { Authorization: `Bearer ${token}` }
         });
-        const data = response.data;
         if (data.status === "success") {
           setTasks(data.data);
-          setLoading(false);
-        } else {
-          setErrorMessage(data.message);
-          setLoading(false);
         }
       } catch (error) {
-        setErrorMessage(error.message);
+        console.error("Fetch failed", error);
+        toast.error("Failed to load tasks");
+      } finally {
         setLoading(false);
       }
     };
@@ -41,38 +45,19 @@ const TaskView = () => {
 
   const handleComplete = async (taskId) => {
     const cookie = new Cookies();
-      const token = cookie.get("token");
+    const token = cookie.get("token");
     try {
-      const response = await axios.patch(`https://kingsleystodolist.onrender.com/api/v1/task/completeTask/${taskId}`,null,{
-        headers:{
-          Authorization: `Bearer ${token}`
-        }
+      const { data } = await axios.patch(`${BASE_URL}/completeTask/${taskId}`, null, {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      const data = response.data;
       if (data.status === 'success') {
-        Swal.fire({
-          title: 'Success!',
-          text: data.message,
-          icon: 'success',
-        });
-        setTasks((prevTasks) =>
-          prevTasks.map((task) =>
-            task._id === taskId ? { ...task, status: 'Completed' } : task
-          )
+        toast.success(data.message);
+        setTasks((prev) =>
+          prev.map((t) => (t._id === taskId ? { ...t, status: 'Completed' } : t))
         );
-      } else {
-        Swal.fire({
-          title: 'Error!',
-          text: data.message,
-          icon: 'error',
-        });
       }
     } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-      });
+      toast.error(error.message);
     }
   };
 
@@ -80,161 +65,107 @@ const TaskView = () => {
     const cookie = new Cookies();
     const token = cookie.get("token");
     try {
-      const response = await axios.delete(`https://kingsleystodolist.onrender.com/api/v1/task/deleteTask/${taskId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+      const { data } = await axios.delete(`${BASE_URL}/deleteTask/${taskId}`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      const data = response.data;
       if (data.status === 'success') {
-        Swal.fire({
-          title: 'Success!',
-          text: data.message,
-          icon: 'success',
-        });
-        setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
-      } else {
-        Swal.fire({
-          title: 'Error!',
-          text: data.message,
-          icon: 'error',
-        });
+        toast.success(data.message);
+        setTasks((prev) => prev.filter((t) => t._id !== taskId));
       }
     } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-      });
+      toast.error(error.message);
     }
   };
 
-  if (errorMessage) {
-    return (
-      <div className="error">
-        <p>{errorMessage}</p>
-      </div>
-    );
-  }
-
   return (
     <>
-      {loading ? (
-        <div className="loader-container">
-          <div className="loader-content">
-            <BallTriangle type="Oval" color="#3b82f6" height={60} width={60} />
-            <p>Loading your tasks...</p>
-          </div>
-        </div>
-      ) : (
-        <div className="task-wrapper">
-          <SideBar />
-          <main className="task-main">
-            <div className="task-header">
-              <div className="header-content">
-                <h1 className="page-title">
-                  <TbList className="title-icon" />
-                  My Tasks
-                </h1>
-                <p className="page-subtitle">View and manage all your tasks</p>
+      <div className="task-wrapper">
+        <SideBar />
+        <main className="task-main">
+          <header className="task-header">
+            <div className="header-text">
+              <h1 className="page-title">
+                <TbList className="title-icon" />
+                Work Log
+              </h1>
+              <p className="page-subtitle">Track and manage your productivity</p>
+            </div>
+            <div className="task-stats">
+              <div className="stat-item-mini">
+                <span>{tasks.length}</span>
+                <span>Total</span>
               </div>
-              <div className="task-stats">
-                <div className="stat-card">
-                  <TbCheckbox className="stat-icon" />
-                  <div className="stat-info">
-                    <span className="stat-number">{tasks.length}</span>
-                    <span className="stat-label">Total Tasks</span>
-                  </div>
-                </div>
-                <div className="stat-card">
-                  <TbCheck className="stat-icon completed" />
-                  <div className="stat-info">
-                    <span className="stat-number">{tasks.filter(task => task.status === 'Completed').length}</span>
-                    <span className="stat-label">Completed</span>
-                  </div>
-                </div>
-                <div className="stat-card">
-                  <TbClock className="stat-icon pending" />
-                  <div className="stat-info">
-                    <span className="stat-number">{tasks.filter(task => task.status !== 'Completed').length}</span>
-                    <span className="stat-label">Pending</span>
-                  </div>
-                </div>
+              <div className="stat-item-mini">
+                <span>{tasks.filter(t => t.status === 'Completed').length}</span>
+                <span>Completed</span>
               </div>
             </div>
+          </header>
 
-            <div className="task-content">
-              {errorMessage ? (
-                <div className="error-message">
-                  <p>{errorMessage}</p>
-                </div>
-              ) : tasks.length > 0 ? (
-                <div className="tasks-grid">
-                  {tasks.map((task) => (
-                    <div key={task._id} className={`task-card ${task.status === 'Completed' ? 'completed' : ''}`}>
-                      <div className="task-header-card">
-                        <div className="task-title">
-                          <h3>{task.head}</h3>
-                          <span className={`priority-badge ${task.category?.toLowerCase()}`}>
-                            <TbFlag className="priority-icon" />
-                            {task.category}
+          <div className="table-container">
+            {loading ? (
+              <div className="table-loader" style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>
+                <div className="modern-spinner" style={{ width: '32px', height: '32px' }}></div>
+              </div>
+            ) : (
+              <table className="modern-table">
+                <thead>
+                  <tr>
+                    <th>Task Name</th>
+                    <th>Priority</th>
+                    <th>Details</th>
+                    <th>Timeline</th>
+                    <th>Status</th>
+                    <th style={{ textAlign: 'right' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tasks.length > 0 ? (
+                    tasks.map((t) => (
+                      <tr key={t._id}>
+                        <td className="task-cell-title">{t.head}</td>
+                        <td>
+                          <span className="badge badge-priority">{t.category}</span>
+                        </td>
+                        <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {t.item}
+                        </td>
+                        <td style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                          {new Date(t.startDate).toLocaleDateString()} — {new Date(t.endDate).toLocaleDateString()}
+                        </td>
+                        <td>
+                          <span className={`badge ${t.status === 'Completed' ? 'badge-status-completed' : 'badge-status-pending'}`}>
+                            {t.status}
                           </span>
-                        </div>
-                        <div className="task-actions">
-                          {task.status !== 'Completed' && (
-                            <button 
-                              className="btn-complete" 
-                              onClick={() => handleComplete(task._id)}
-                              title="Mark as complete"
-                            >
-                              <TbCheck />
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <div className="action-btns" style={{ justifyContent: 'flex-end' }}>
+                            {t.status !== 'Completed' && (
+                              <button className="btn-icon-action" onClick={() => handleComplete(t._id)}>
+                                <TbCheck />
+                              </button>
+                            )}
+                            <button className="btn-icon-action delete" onClick={() => handleDelete(t._id)}>
+                              <TbTrash />
                             </button>
-                          )}
-                          <button 
-                            className="btn-delete" 
-                            onClick={() => handleDelete(task._id)}
-                            title="Delete task"
-                          >
-                            <TbTrash />
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <div className="task-description">
-                        <p>{task.item}</p>
-                      </div>
-                      
-                      <div className="task-meta">
-                        <div className="task-dates">
-                          <div className="date-item">
-                            <TbCalendar className="date-icon" />
-                            <span>Start: {new Date(task.startDate).toLocaleDateString()}</span>
                           </div>
-                          <div className="date-item">
-                            <TbCalendar className="date-icon" />
-                            <span>Due: {new Date(task.endDate).toLocaleDateString()}</span>
-                          </div>
-                        </div>
-                        <div className={`status-badge ${task.status?.toLowerCase()}`}>
-                          {task.status}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="empty-state">
-                  <div className="empty-icon">
-                    <TbList />
-                  </div>
-                  <h3>No tasks yet</h3>
-                  <p>Start by creating your first task to stay organized</p>
-                </div>
-              )}
-            </div>
-          </main>
-        </div>
-      )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="empty-row-text">
+                         <TbPackageOff style={{ fontSize: '2rem', marginBottom: '10px' }} />
+                         <p>No task entries found. Your log is currently empty.</p>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </main>
+      </div>
     </>
   );
 };

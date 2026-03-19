@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import SideBar from './../Component/SideBar';
-import Swal from 'sweetalert2';
-import { TbUser, TbMail, TbEdit, TbLock, TbUserCircle } from 'react-icons/tb';
+import toast from 'react-hot-toast';
+import { TbUser, TbMail, TbEdit, TbLock, TbUserCircle, TbShieldCheck } from 'react-icons/tb';
 import axios from 'axios';
-import '../Stylesheets/profile.css'
+import '../Stylesheets/profile.css';
 import Cookies from 'universal-cookie';
 import withAuth from '../Component/withAuth';
-import {BallTriangle} from 'react-loader-spinner';
+import { BallTriangle } from 'react-loader-spinner';
+import BASE_URL from '../apiConfig';
 
 const Profile = () => {
-  const [loading, setloading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -21,230 +22,163 @@ const Profile = () => {
       const cookie = new Cookies();
       const token = cookie.get('token');
       try {
-        const response = await axios.get('https://kingsleystodolist.onrender.com/api/v1/task/getUser',{
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const { data } = await axios.get(`${BASE_URL}/getUser`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-        setUserData(response.data.data);
+        setUserData(data.data);
+        setName(data.data.name);
+        setUsername(data.data.username);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
-
     getUserData();
   }, []);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     const cookie = new Cookies();
-      const token = cookie.get('token');
+    const token = cookie.get('token');
     try {
-      const { data } = await axios.patch('https://kingsleystodolist.onrender.com/api/v1/task/updateUser', {
-        // const { data } = await axios.patch('http://localhost:10000/api/v1/task/updateUser', {
+      const { data } = await axios.patch(`${BASE_URL}/updateUser`, {
         name,
         username,
         oldPassword,
         newPassword
       }, {
-        headers: {
-          Authorization: `Bearer ${token}` // Replace "yourAccessToken" with the actual access token
-        }
+        headers: { Authorization: `Bearer ${token}` }
       });
 
       if (data.status === 'success') {
-        Swal.fire({
-          title: 'Profile Updated!',
-          text: data.message,
-          icon: 'success',
-          timer: 5000,
-          timerProgressBar: true,
-          background: '#ffffff',
-          color: '#1e293b',
-          iconColor: '#3b82f6',
-        });
+        toast.success('Account updated successfully');
+        setTimeout(() => window.location.reload(), 1500);
       } else {
-        Swal.fire({
-          title: 'Error!',
-          text: data.message,
-          icon: 'error'
-        });
+        toast.error(data.message || 'Action failed');
       }
     } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error'
-      });
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setloading(false);
-    }, 1000); // Set isLoading to false after 5 seconds
-    return () => clearTimeout(timerId);
-  }, []);
-
   return (
     <>
-     {loading ? (
+      {loading ? (
         <div className="loader-container">
-          <div className="loader-content">
-            <BallTriangle type="Oval" color="#3b82f6" height={60} width={60} />
-            <p>Loading your profile...</p>
-          </div>
+          <div className="modern-spinner"></div>
         </div>
       ) : (
         <div className="profile-wrapper">
           <SideBar />
           <main className="profile-main">
-            <div className="profile-header">
-              <div className="header-content">
-                <h1 className="page-title">
-                  <TbUserCircle className="title-icon" />
-                  My Profile
-                </h1>
-                <p className="page-subtitle">Manage your account settings and preferences</p>
-              </div>
-            </div>
+            <header className="profile-header">
+              <h1 className="page-title">
+                <TbUserCircle className="title-icon" />
+                Account Settings
+              </h1>
+              <p className="page-subtitle">Personalize your identity and secure your account</p>
+            </header>
 
-            <div className="profile-content">
-              <div className="profile-grid">
-                {/* Profile Overview Card */}
-                <div className="profile-card">
-                  <div className="profile-avatar">
-                    <TbUser className="avatar-icon" />
+            <div className="profile-grid">
+              <aside className="profile-aside">
+                <div className="profile-card-minimal">
+                  <div className="profile-avatar-large">
+                    {userData?.name?.charAt(0) || 'U'}
                   </div>
-                  <div className="profile-info">
-                    <h2 className="profile-name">{userData?.name || 'User Name'}</h2>
-                    <p className="profile-username">@{userData?.username || 'username'}</p>
-                  </div>
-                  <div className="profile-stats">
-                    <div className="stat-item">
-                      <span className="stat-number">24</span>
-                      <span className="stat-label">Total Tasks</span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-number">18</span>
-                      <span className="stat-label">Completed</span>
-                    </div>
-                  </div>
+                  <h2 className="profile-name-big">{userData?.name || 'User Name'}</h2>
+                   <p className="profile-user-tag">@{userData?.username || 'username'}</p>
+                   <div className="profile-stats-mini">
+                     <div className="stat-box">
+                       <span>{userData?.totalTasks || 0}</span>
+                       <span>Tasks</span>
+                     </div>
+                     <div className="stat-box">
+                       <span>{userData?.completedTasks || 0}</span>
+                       <span>Status</span>
+                     </div>
+                   </div>
                 </div>
 
-                {/* Current Information Card */}
-                <div className="info-card">
-                  <div className="card-header">
-                    <h3>Account Information</h3>
-                  </div>
-                  <div className="info-list">
-                    <div className="info-item">
-                      <TbUser className="info-icon" />
-                      <div className="info-details">
-                        <span className="info-label">Full Name</span>
-                        <span className="info-value">{userData?.name || 'Not set'}</span>
-                      </div>
-                    </div>
-                    <div className="info-item">
-                      <TbUser className="info-icon" />
-                      <div className="info-details">
-                        <span className="info-label">Username</span>
-                        <span className="info-value">{userData?.username || 'Not set'}</span>
-                      </div>
-                    </div>
-                    <div className="info-item">
-                      <TbMail className="info-icon" />
-                      <div className="info-details">
-                        <span className="info-label">Email Address</span>
-                        <span className="info-value">{userData?.email || 'Not set'}</span>
-                      </div>
-                    </div>
-                  </div>
+                <div className="account-info-list" style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column' }}>
+                   <div className="info-box-item">
+                     <label>Email Address</label>
+                     <p>{userData?.email || 'not set'}</p>
+                   </div>
+                   <div className="info-box-item">
+                     <label>Verification</label>
+                     <p style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#22c55e' }}>
+                       <TbShieldCheck /> Verified Account
+                     </p>
+                   </div>
                 </div>
+              </aside>
 
-                {/* Update Profile Card */}
-                <div className="update-card">
-                  <div className="card-header">
-                    <h3>
-                      <TbEdit className="card-icon" />
-                      Update Profile
-                    </h3>
-                    <p>Change your account information and password</p>
-                  </div>
-                  
-                  <form className="update-form" onSubmit={(e) => {e.preventDefault(); handleUpdate(e);}}>
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label htmlFor="name">
-                          <TbUser className="label-icon" />
-                          Full Name
-                        </label>
-                        <input 
-                          type="text" 
-                          id="name"
-                          placeholder="Enter your full name" 
-                          value={name} 
-                          onChange={(e) => setName(e.target.value)}
-                          className="form-input"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
-                        <label htmlFor="username">
-                          <TbUser className="label-icon" />
-                          Username
-                        </label>
-                        <input 
-                          type="text" 
-                          id="username"
-                          placeholder="Enter your username" 
-                          value={username} 
-                          onChange={(e) => setUsername(e.target.value)}
-                          className="form-input"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label htmlFor="oldPassword">
-                          <TbLock className="label-icon" />
-                          Current Password
-                        </label>
-                        <input 
-                          type="password" 
-                          id="oldPassword"
-                          placeholder="Enter current password" 
-                          value={oldPassword} 
-                          onChange={(e) => setOldPassword(e.target.value)}
-                          className="form-input"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
-                        <label htmlFor="newPassword">
-                          <TbLock className="label-icon" />
-                          New Password
-                        </label>
-                        <input 
-                          type="password" 
-                          id="newPassword"
-                          placeholder="Enter new password" 
-                          value={newPassword} 
-                          onChange={(e) => setNewPassword(e.target.value)}
-                          className="form-input"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-actions">
-                      <button type="submit" className="btn-primary">
-                        <TbEdit className="btn-icon" />
-                        Update Profile
-                      </button>
-                    </div>
-                  </form>
+              <div className="update-section">
+                <div className="section-head">
+                  <h3>
+                    <TbEdit /> Update Profile
+                  </h3>
+                  <p>Keep your account information current and secure</p>
                 </div>
+                
+                <form className="update-form" onSubmit={handleUpdate}>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="name">Full Name</label>
+                      <input 
+                        type="text" 
+                        id="name"
+                        value={name} 
+                        onChange={(e) => setName(e.target.value)}
+                        className="form-input"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label htmlFor="username">Username</label>
+                      <input 
+                        type="text" 
+                        id="username"
+                        value={username} 
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="form-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row" style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9' }}>
+                    <div className="form-group">
+                      <label htmlFor="oldPassword">Current Password</label>
+                      <input 
+                        type="password" 
+                        id="oldPassword"
+                        placeholder="••••••••" 
+                        value={oldPassword} 
+                        onChange={(e) => setOldPassword(e.target.value)}
+                        className="form-input"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label htmlFor="newPassword">New Password</label>
+                      <input 
+                        type="password" 
+                        id="newPassword"
+                        placeholder="Enter new password" 
+                        value={newPassword} 
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        className="form-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-actions" style={{ marginTop: '2rem' }}>
+                    <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </main>
