@@ -47,7 +47,6 @@ const Login = () => {
               <input 
                 id="email"
                 type="email" 
-                placeholder="name@company.com" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
                 className="prof-input"
@@ -60,7 +59,6 @@ const Login = () => {
               <input 
                 id="password"
                 type="password" 
-                placeholder="••••••••" 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
                 className="prof-input"

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import SideBar from "../Component/SideBar";
-import { BallTriangle } from 'react-loader-spinner';
 import '../Stylesheets/Task.css';
 import Cookies from 'universal-cookie';
 import withAuth from '../Component/withAuth';
@@ -14,32 +13,35 @@ import {
   TbFlag, 
   TbClock, 
   TbCheckbox,
-  TbPackageOff
+  TbPackageOff,
+  TbFilter
 } from 'react-icons/tb';
 import BASE_URL from "../apiConfig";
 
 const TaskView = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('All'); // 'All', 'Ongoing', 'Completed'
+
+  const fetchData = async () => {
+    const cookie = new Cookies();
+    const token = cookie.get("token");
+    try {
+      const { data } = await axios.get(`${BASE_URL}/allTasks`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (data.status === "success") {
+        setTasks(data.data);
+      }
+    } catch (error) {
+      console.error("Fetch failed", error);
+      toast.error("Failed to load tasks");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const cookie = new Cookies();
-      const token = cookie.get("token");
-      try {
-        const { data } = await axios.get(`${BASE_URL}/allTasks`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (data.status === "success") {
-          setTasks(data.data);
-        }
-      } catch (error) {
-        console.error("Fetch failed", error);
-        toast.error("Failed to load tasks");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
   }, []);
 
@@ -77,6 +79,11 @@ const TaskView = () => {
     }
   };
 
+  const filteredTasks = tasks.filter(t => {
+    if (filter === 'All') return true;
+    return t.status === filter;
+  });
+
   return (
     <>
       <div className="task-wrapper">
@@ -86,19 +93,32 @@ const TaskView = () => {
             <div className="header-text">
               <h1 className="page-title">
                 <TbList className="title-icon" />
-                Work Log
+                All Tasks
               </h1>
-              <p className="page-subtitle">Track and manage your productivity</p>
+              <p className="page-subtitle">Centralized hub for your entire productivity log</p>
             </div>
-            <div className="task-stats">
-              <div className="stat-item-mini">
-                <span>{tasks.length}</span>
-                <span>Total</span>
-              </div>
-              <div className="stat-item-mini">
-                <span>{tasks.filter(t => t.status === 'Completed').length}</span>
-                <span>Completed</span>
-              </div>
+            
+            <div className="task-header-actions">
+               <div className="filter-system">
+                 <button 
+                   className={`filter-btn ${filter === 'All' ? 'active' : ''}`} 
+                   onClick={() => setFilter('All')}
+                 >
+                   All ({tasks.length})
+                 </button>
+                 <button 
+                   className={`filter-btn ${filter === 'Incomplete' ? 'active' : ''}`} 
+                   onClick={() => setFilter('Incomplete')}
+                 >
+                   Pending
+                 </button>
+                 <button 
+                   className={`filter-btn ${filter === 'Completed' ? 'active' : ''}`} 
+                   onClick={() => setFilter('Completed')}
+                 >
+                   Completed
+                 </button>
+               </div>
             </div>
           </header>
 
@@ -114,24 +134,33 @@ const TaskView = () => {
                     <th>Task Name</th>
                     <th>Priority</th>
                     <th>Details</th>
+                    <th>Progress</th>
                     <th>Timeline</th>
                     <th>Status</th>
                     <th style={{ textAlign: 'right' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {tasks.length > 0 ? (
-                    tasks.map((t) => (
-                      <tr key={t._id}>
-                        <td className="task-cell-title">{t.head}</td>
+                  {filteredTasks.length > 0 ? (
+                    filteredTasks.map((t) => (
+                      <tr key={t._id} className="fade-in">
+                        <td className="task-cell-title">{t.title || t.head}</td>
                         <td>
-                          <span className="badge badge-priority">{t.category}</span>
+                          <span className="badge badge-priority">{t.priorityLevel || t.category}</span>
                         </td>
-                        <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {t.item}
+                        <td className="table-truncate-cell">
+                          {t.description || t.item}
                         </td>
-                        <td style={{ fontSize: '0.8rem', color: '#64748b' }}>
-                          {new Date(t.startDate).toLocaleDateString()} — {new Date(t.endDate).toLocaleDateString()}
+                        <td>
+                           <div className="table-progress-bar">
+                             <div className="progress-bg">
+                                <div className="progress-fill" style={{ width: `${t.progress || 0}%` }}></div>
+                             </div>
+                             <span>{t.progress || 0}%</span>
+                           </div>
+                        </td>
+                        <td className="table-date-cell">
+                          {t.startDate ? new Date(t.startDate).toLocaleDateString() : '—'} ➔ {t.endDate ? new Date(t.endDate).toLocaleDateString() : '—'}
                         </td>
                         <td>
                           <span className={`badge ${t.status === 'Completed' ? 'badge-status-completed' : 'badge-status-pending'}`}>
@@ -154,9 +183,9 @@ const TaskView = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" className="empty-row-text">
+                      <td colSpan="7" className="empty-row-text">
                          <TbPackageOff style={{ fontSize: '2rem', marginBottom: '10px' }} />
-                         <p>No task entries found. Your log is currently empty.</p>
+                         <p>No matches found in your {filter} list.</p>
                       </td>
                     </tr>
                   )}

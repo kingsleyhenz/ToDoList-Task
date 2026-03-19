@@ -72,7 +72,6 @@ const SignUp = ()=>{
               <input 
                 type="text" 
                 id="name" 
-                placeholder="e.g. Kingsley Henz" 
                 value={name} 
                 onChange={(e) => setName(e.target.value)} 
                 className="prof-input"
@@ -85,7 +84,6 @@ const SignUp = ()=>{
               <input 
                 type="text" 
                 id="username" 
-                placeholder="choose a handle" 
                 value={username} 
                 onChange={(e) => setUsername(e.target.value)} 
                 className="prof-input"
@@ -98,7 +96,6 @@ const SignUp = ()=>{
               <input 
                 type="email" 
                 id="email" 
-                placeholder="name@company.com" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
                 className="prof-input"

@@ -26,9 +26,8 @@ const SideBar = () => {
 
   const navItems = [
     { icon: TbLayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-    { icon: TbChecklist, label: 'All Tasks', path: '/todo', badge: '0' },
-    { icon: TbCalendarEvent, label: 'Today', path: '/task', badge: '0' },
-    { icon: TbCircleCheck, label: 'Completed', path: '/dashboard' },
+    { icon: TbChecklist, label: 'Add Todo', path: '/todo' },
+    { icon: TbCalendarEvent, label: 'All Tasks', path: '/task' },
   ];
 
   const categoryItems = [

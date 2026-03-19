@@ -67,21 +67,6 @@
   color: var(--login-text-main);
 }
 
-.prof-input {
-  padding: 0.875rem 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  background: #f8fafc;
-}
-
-.prof-input:focus {
-  outline: none;
-  border-color: var(--login-primary);
-  background: white;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-}
 
 .login-submit-btn {
   background: var(--login-text-main);

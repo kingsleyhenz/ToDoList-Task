@@ -153,7 +153,6 @@ const Profile = () => {
                       <input 
                         type="password" 
                         id="oldPassword"
-                        placeholder="••••••••" 
                         value={oldPassword} 
                         onChange={(e) => setOldPassword(e.target.value)}
                         className="form-input"
@@ -165,7 +164,6 @@ const Profile = () => {
                       <input 
                         type="password" 
                         id="newPassword"
-                        placeholder="Enter new password" 
                         value={newPassword} 
                         onChange={(e) => setNewPassword(e.target.value)}
                         className="form-input"

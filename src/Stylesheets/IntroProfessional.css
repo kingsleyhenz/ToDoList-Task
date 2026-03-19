@@ -164,21 +164,6 @@
   color: var(--intro-text-main);
 }
 
-.prof-input {
-  padding: 0.875rem 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  background: #f8fafc;
-}
-
-.prof-input:focus {
-  outline: none;
-  border-color: var(--intro-primary);
-  background: white;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-}
 
 .submit-btn {
   background: var(--intro-text-main);

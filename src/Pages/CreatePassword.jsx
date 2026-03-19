@@ -68,7 +68,6 @@ const CreatePassword = () => {
                             <input 
                                 type="text" 
                                 id="otp" 
-                                placeholder="Enter 6-digit code" 
                                 value={otp} 
                                 onChange={(e) => setOtp(e.target.value)} 
                                 className="prof-input"
@@ -81,7 +80,6 @@ const CreatePassword = () => {
                             <input 
                                 type="password" 
                                 id="password" 
-                                placeholder="••••••••" 
                                 value={newPassword} 
                                 onChange={(e) => setNewPassword(e.target.value)} 
                                 className="prof-input"
