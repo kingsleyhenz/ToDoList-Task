@@ -47,7 +47,7 @@ const SideBar = () => {
           <div className="user-avatar">KH</div>
           <div className="user-info">
             <h4>Kingsley Henz</h4>
-            <span>Administrator</span>
+            <span>Task Master</span>
           </div>
         </div>
       </div>

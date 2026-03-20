@@ -115,7 +115,7 @@ const Profile = () => {
                    <p className="profile-user-tag">@{userData?.username || 'username'}</p>
                    <div className="profile-stats-mini">
                      <div className="stat-box">
-                       <span>{userData?.totalTasks || 0}</span>
+                       <span>{userData?.tasks.length || 0}</span>
                        <span>Tasks</span>
                      </div>
                    </div>
