@@ -9,9 +9,7 @@ import {
   TbCalendarEvent,
   TbSettings,
   TbLogout,
-  TbCircleCheck,
-  TbBriefcase,
-  TbUser
+  TbDiamond
 } from "react-icons/tb";
 
 const SideBar = () => {
@@ -28,12 +26,9 @@ const SideBar = () => {
     { icon: TbLayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: TbChecklist, label: 'Add Todo', path: '/todo' },
     { icon: TbCalendarEvent, label: 'All Tasks', path: '/task' },
+    { icon: TbDiamond, label: 'Premium', path: '/subscription', badge: 'PRO' },
   ];
 
-  const categoryItems = [
-    { icon: TbBriefcase, label: 'Work', path: '/dashboard' },
-    { icon: TbUser, label: 'Personal', path: '/dashboard' }
-  ];
 
   return (
     <div className="sidebar">
@@ -71,19 +66,6 @@ const SideBar = () => {
           </ul>
         </div>
 
-        <div className="nav-section">
-          <h3 className="nav-title">Categories</h3>
-          <ul className="nav-menu">
-            {categoryItems.map((item, idx) => (
-              <li key={idx}>
-                <NavLink to={item.path} className="nav-link">
-                  <item.icon className="nav-icon" />
-                  <span className="nav-label">{item.label}</span>
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
       </nav>
 
       <div className="sidebar-footer">

@@ -20,14 +20,16 @@ import BASE_URL from "../apiConfig";
 
 const TaskView = () => {
   const [tasks, setTasks] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('All'); // 'All', 'Ongoing', 'Completed'
+  const [filter, setFilter] = useState('All'); 
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const fetchData = async () => {
     const cookie = new Cookies();
     const token = cookie.get("token");
     try {
-      const { data } = await axios.get(`${BASE_URL}/allTasks`, {
+      const { data } = await axios.get(`${BASE_URL}/task/allTasks`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (data.status === "success") {
@@ -41,15 +43,31 @@ const TaskView = () => {
     }
   };
 
+  const fetchCategories = async () => {
+    const cookie = new Cookies();
+    const token = cookie.get("token");
+    try {
+      const { data } = await axios.get(`${BASE_URL}/task/categories`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (data.status === "success") {
+        setCategories(data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch categories", error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchCategories();
   }, []);
 
   const handleComplete = async (taskId) => {
     const cookie = new Cookies();
     const token = cookie.get("token");
     try {
-      const { data } = await axios.patch(`${BASE_URL}/completeTask/${taskId}`, null, {
+      const { data } = await axios.patch(`${BASE_URL}/task/completeTask/${taskId}`, null, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (data.status === 'success') {
@@ -67,7 +85,7 @@ const TaskView = () => {
     const cookie = new Cookies();
     const token = cookie.get("token");
     try {
-      const { data } = await axios.delete(`${BASE_URL}/deleteTask/${taskId}`, {
+      const { data } = await axios.delete(`${BASE_URL}/task/deleteTask/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (data.status === 'success') {
@@ -80,8 +98,13 @@ const TaskView = () => {
   };
 
   const filteredTasks = tasks.filter(t => {
-    if (filter === 'All') return true;
-    return t.status === filter;
+    const statusMatch = filter === 'All' || t.status === filter;
+    
+    // Resolve task category whether populated or raw string ID
+    const taskCatId = typeof t.category === 'object' && t.category !== null ? t.category._id : t.category;
+    
+    const catMatch = selectedCategory === 'All' || taskCatId === selectedCategory;
+    return statusMatch && catMatch;
   });
 
   return (
@@ -98,7 +121,21 @@ const TaskView = () => {
               <p className="page-subtitle">Centralized hub for your entire productivity log</p>
             </div>
             
-            <div className="task-header-actions">
+            <div className="task-header-actions" style={{ gap: '1rem' }}>
+               <div className="filter-system">
+                 <select 
+                   className="filter-btn" 
+                   value={selectedCategory}
+                   onChange={(e) => setSelectedCategory(e.target.value)}
+                   style={{ appearance: 'auto', outline: 'none' }}
+                 >
+                   <option value="All">All Categories</option>
+                   {categories.map(c => (
+                     <option key={c._id} value={c._id}>{c.name}</option>
+                   ))}
+                 </select>
+               </div>
+               
                <div className="filter-system">
                  <button 
                    className={`filter-btn ${filter === 'All' ? 'active' : ''}`} 
