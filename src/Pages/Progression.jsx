@@ -9,7 +9,8 @@ import {
   TbCircleCheck, 
   TbClockHour4, 
   TbAlertCircle,
-  TbChartPie
+  TbChartPie,
+  TbCalendarEvent
 } from 'react-icons/tb';
 import { 
   PieChart, 
@@ -28,59 +29,91 @@ import BASE_URL from "../apiConfig";
 import toast from 'react-hot-toast';
 
 const Progression = () => {
-  const [tasks, setTasks] = useState([]);
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  const currentYear = new Date().getFullYear();
+  const [fromDate, setFromDate] = useState(`${currentYear}-01-01`);
+  const [toDate, setToDate] = useState(`${currentYear}-12-31`);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const cookie = new Cookies();
       const token = cookie.get("token");
       try {
-        const { data } = await axios.get(`${BASE_URL}/task/allTasks`, {
+        const queryFrom = `${fromDate}T00:00:00Z`;
+        const queryTo = `${toDate}T23:59:59Z`;
+        
+        const res = await axios.get(`${BASE_URL}/task/progression?from=${queryFrom}&to=${queryTo}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        if (data.status === "success") {
-          setTasks(data.data);
-        }
+        
+        // Backend might wrap in standard { status, data: {...} } or return directly
+        const payload = res.data.data ? res.data.data : res.data;
+        setStats(payload);
+        
       } catch (error) {
-        toast.error("Failed to load progression data");
+        toast.error("Failed to load progression analytics");
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [fromDate, toDate]);
 
-  const totalTasks = tasks.length;
-  const completed = tasks.filter(t => t.status === 'Completed').length;
-  const ongoing = tasks.filter(t => t.status === 'Ongoing').length;
-  const incomplete = tasks.filter(t => t.status === 'Incomplete').length;
-  
-  const totalProgress = tasks.reduce((sum, t) => sum + (t.progress || 0), 0);
-  const avgProgress = totalTasks ? Math.round(totalProgress / totalTasks) : 0;
+  const pieData = stats ? [
+    { name: 'Completed', value: stats.percentages?.completed || 0, color: '#22c55e' },
+    { name: 'Ongoing', value: stats.percentages?.ongoing || 0, color: '#f5a623' },
+    { name: 'Incomplete', value: stats.percentages?.incomplete || 0, color: '#ef4444' }
+  ].filter(d => d.value > 0) : [];
 
-  const pieData = [
-    { name: 'Completed', value: completed, color: '#22c55e' },
-    { name: 'Ongoing', value: ongoing, color: '#f5a623' },
-    { name: 'Incomplete', value: incomplete, color: '#ef4444' }
-  ].filter(d => d.value > 0);
+  const priorityData = stats ? [
+    { name: 'High', count: stats.priorityBreakdown?.High || 0, fill: '#ef4444' },
+    { name: 'Medium', count: stats.priorityBreakdown?.Medium || 0, fill: '#f5a623' },
+    { name: 'Low', count: stats.priorityBreakdown?.Low || 0, fill: '#3b82f6' }
+  ] : [];
 
-  const priorityData = [
-    { name: 'High', count: tasks.filter(t => t.priorityLevel === 'High').length, fill: '#ef4444' },
-    { name: 'Med', count: tasks.filter(t => t.priorityLevel === 'Medium').length, fill: '#f5a623' },
-    { name: 'Low', count: tasks.filter(t => t.priorityLevel === 'Low').length, fill: '#3b82f6' }
-  ];
+  const totalTasks = stats ? (stats.totalCompleted + stats.totalPending + stats.totalIncomplete) : 0;
 
   return (
     <div className="progression-wrapper">
       <SideBar />
       <main className="progression-main fade-in">
          <header className="progression-header">
-            <h1 className="page-title">
-              <TbChartPie className="title-icon" style={{ color: '#09A5DB' }} />
-              Task Progression
-            </h1>
-            <p className="page-subtitle">Track your delivery velocity and actionable insights</p>
+            <div className="header-text">
+              <h1 className="page-title">
+                <TbChartPie className="title-icon" style={{ color: '#09A5DB' }} />
+                Task Progression
+              </h1>
+              <p className="page-subtitle">Track your delivery velocity and actionable insights</p>
+            </div>
+            
+            <div className="date-filter-group slide-up">
+               <div className="date-input-wrap">
+                 <TbCalendarEvent className="date-icon" />
+                 <input 
+                   type="date" 
+                   className="modern-date-input" 
+                   value={fromDate} 
+                   onChange={(e) => setFromDate(e.target.value)} 
+                 />
+                 <span className="date-label">From</span>
+               </div>
+               
+               <span className="date-separator">➔</span>
+               
+               <div className="date-input-wrap">
+                 <TbCalendarEvent className="date-icon" />
+                 <input 
+                   type="date" 
+                   className="modern-date-input" 
+                   value={toDate} 
+                   onChange={(e) => setToDate(e.target.value)} 
+                 />
+                 <span className="date-label">To</span>
+               </div>
+            </div>
          </header>
 
          {loading ? (
@@ -96,7 +129,7 @@ const Progression = () => {
                        <TbCircleCheck />
                      </div>
                      <div className="kpi-details">
-                        <span className="kpi-val">{completed}</span>
+                        <span className="kpi-val">{stats?.totalCompleted || 0}</span>
                         <span className="kpi-label">Total Completed</span>
                      </div>
                   </div>
@@ -106,7 +139,7 @@ const Progression = () => {
                        <TbClockHour4 />
                      </div>
                      <div className="kpi-details">
-                        <span className="kpi-val">{ongoing}</span>
+                        <span className="kpi-val">{stats?.totalPending || 0}</span>
                         <span className="kpi-label">Total Pending</span>
                      </div>
                   </div>
@@ -116,7 +149,7 @@ const Progression = () => {
                        <TbAlertCircle />
                      </div>
                      <div className="kpi-details">
-                        <span className="kpi-val">{incomplete}</span>
+                        <span className="kpi-val">{stats?.totalIncomplete || 0}</span>
                         <span className="kpi-label">Total Incomplete</span>
                      </div>
                   </div>
@@ -126,10 +159,11 @@ const Progression = () => {
                        <TbTrendingUp />
                      </div>
                      <div className="kpi-details">
-                        <span className="kpi-val">{avgProgress}%</span>
+                        <span className="kpi-val">{stats?.avgProgress || 0}%</span>
                         <span className="kpi-label">Avg. Progress</span>
                      </div>
                   </div>
+
                </div>
 
                {/* Charts Row */}

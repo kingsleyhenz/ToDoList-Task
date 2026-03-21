@@ -22,7 +22,7 @@ const Profile = () => {
       const cookie = new Cookies();
       const token = cookie.get('token');
       try {
-        const { data } = await axios.get(`${BASE_URL}/getUser`, {
+        const { data } = await axios.get(`${BASE_URL}/user/getUser`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserData(data.data);
@@ -37,23 +37,48 @@ const Profile = () => {
     getUserData();
   }, []);
 
-  const handleUpdate = async (e) => {
+  const handleProfileUpdate = async (e) => {
     e.preventDefault();
     const cookie = new Cookies();
     const token = cookie.get('token');
     try {
-      const { data } = await axios.patch(`${BASE_URL}/updateUser`, {
+      const { data } = await axios.patch(`${BASE_URL}/user/updateUser`, {
         name,
-        username,
-        oldPassword,
+        username
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (data.status === 'success') {
+        toast.success('Profile saved successfully');
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        toast.error(data.message || 'Action failed');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
+
+  const handlePasswordUpdate = async (e) => {
+    e.preventDefault();
+    if (!oldPassword || !newPassword) {
+      return toast.error('Both password fields required');
+    }
+    const cookie = new Cookies();
+    const token = cookie.get('token');
+    try {
+      const { data } = await axios.patch(`${BASE_URL}/user/update-password`, {
+        currentPassword: oldPassword,
         newPassword
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       if (data.status === 'success') {
-        toast.success('Account updated successfully');
-        setTimeout(() => window.location.reload(), 1500);
+        toast.success('Password secured successfully');
+        setOldPassword('');
+        setNewPassword('');
       } else {
         toast.error(data.message || 'Action failed');
       }
@@ -93,10 +118,6 @@ const Profile = () => {
                        <span>{userData?.totalTasks || 0}</span>
                        <span>Tasks</span>
                      </div>
-                     <div className="stat-box">
-                       <span>{userData?.completedTasks || 0}</span>
-                       <span>Status</span>
-                     </div>
                    </div>
                 </div>
 
@@ -114,70 +135,90 @@ const Profile = () => {
                 </div>
               </aside>
 
-              <div className="update-section">
-                <div className="section-head">
-                  <h3>
-                    <TbEdit /> Update Profile
-                  </h3>
-                  <p>Keep your account information current and secure</p>
+              <div className="profile-settings-column" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div className="update-section">
+                  <div className="section-head">
+                    <h3>
+                      <TbEdit /> Personal Information
+                    </h3>
+                    <p>Update your public name and handle</p>
+                  </div>
+                  
+                  <form className="update-form" onSubmit={handleProfileUpdate}>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label htmlFor="name">Full Name</label>
+                        <input 
+                          type="text" 
+                          id="name"
+                          value={name} 
+                          onChange={(e) => setName(e.target.value)}
+                          className="form-input"
+                        />
+                      </div>
+                      
+                      <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <input 
+                          type="text" 
+                          id="username"
+                          value={username} 
+                          onChange={(e) => setUsername(e.target.value)}
+                          className="form-input"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-actions" style={{ marginTop: '1.5rem' }}>
+                      <button type="submit" className="btn-primary" style={{ minWidth: '160px' }}>
+                        Save Profile
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                
-                <form className="update-form" onSubmit={handleUpdate}>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label htmlFor="name">Full Name</label>
-                      <input 
-                        type="text" 
-                        id="name"
-                        value={name} 
-                        onChange={(e) => setName(e.target.value)}
-                        className="form-input"
-                      />
-                    </div>
-                    
-                    <div className="form-group">
-                      <label htmlFor="username">Username</label>
-                      <input 
-                        type="text" 
-                        id="username"
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)}
-                        className="form-input"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="form-row" style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9' }}>
-                    <div className="form-group">
-                      <label htmlFor="oldPassword">Current Password</label>
-                      <input 
-                        type="password" 
-                        id="oldPassword"
-                        value={oldPassword} 
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        className="form-input"
-                      />
-                    </div>
-                    
-                    <div className="form-group">
-                      <label htmlFor="newPassword">New Password</label>
-                      <input 
-                        type="password" 
-                        id="newPassword"
-                        value={newPassword} 
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        className="form-input"
-                      />
-                    </div>
+                <div className="update-section">
+                  <div className="section-head">
+                    <h3>
+                      <TbLock /> Security & Identity
+                    </h3>
+                    <p>Manage and secure your account credentials</p>
                   </div>
+                  
+                  <form className="update-form" onSubmit={handlePasswordUpdate}>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label htmlFor="oldPassword">Current Password</label>
+                        <input 
+                          type="password" 
+                          id="oldPassword"
+                          value={oldPassword} 
+                          onChange={(e) => setOldPassword(e.target.value)}
+                          className="form-input"
+                        />
+                      </div>
+                      
+                      <div className="form-group">
+                        <label htmlFor="newPassword">New Password</label>
+                        <input 
+                          type="password" 
+                          id="newPassword"
+                          value={newPassword} 
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          className="form-input"
+                        />
+                      </div>
+                    </div>
 
-                  <div className="form-actions" style={{ marginTop: '2rem' }}>
-                    <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                      Save Changes
-                    </button>
-                  </div>
-                </form>
+                    <div className="form-actions" style={{ marginTop: '1.5rem' }}>
+                      <button type="submit" className="btn-primary" style={{ minWidth: '160px' }}>
+                        Update Password
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
+
             </div>
           </main>
         </div>
