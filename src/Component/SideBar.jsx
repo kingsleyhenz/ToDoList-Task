@@ -7,9 +7,9 @@ import {
   TbLayoutDashboard,
   TbChecklist,
   TbCalendarEvent,
-  TbSettings,
   TbLogout,
-  TbDiamond
+  TbDiamond,
+  TbChartPie
 } from "react-icons/tb";
 
 const SideBar = () => {
@@ -26,6 +26,7 @@ const SideBar = () => {
     { icon: TbLayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: TbChecklist, label: 'Add Todo', path: '/todo' },
     { icon: TbCalendarEvent, label: 'All Tasks', path: '/task' },
+    { icon: TbChartPie, label: 'Progression', path: '/progression' },
     { icon: TbDiamond, label: 'Premium', path: '/subscription', badge: 'PRO' },
   ];
 

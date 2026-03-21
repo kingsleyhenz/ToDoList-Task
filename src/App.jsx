@@ -8,6 +8,7 @@ import TaskView from "./Pages/Task";
 import Profile from "./Pages/Profile";
 import CreatePassword from "./Pages/CreatePassword";
 import Subscription from "./Pages/Subscription";
+import Progression from "./Pages/Progression";
 import { Toaster } from "react-hot-toast";
 import "./App.css";
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/task" element={<TaskView />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-password" element={<CreatePassword />} />
+        <Route path="/progression" element={<Progression />} />
         <Route path="/subscription" element={<Subscription />} />
       </Routes>
     </div>
