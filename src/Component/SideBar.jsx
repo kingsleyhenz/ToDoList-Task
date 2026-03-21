@@ -7,6 +7,7 @@ import {
   TbLayoutDashboard,
   TbChecklist,
   TbCalendarEvent,
+  TbSettings,
   TbLogout,
   TbDiamond,
   TbChartPie
