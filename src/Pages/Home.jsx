@@ -16,6 +16,7 @@ import {
 import BASE_URL from "../apiConfig";
 import Cookies from "universal-cookie";
 import '../Stylesheets/Home.css'
+import ninja from "../images/Ninja.png"
 
 import { 
   AreaChart, 
@@ -100,8 +101,11 @@ const Home = () => {
           <main className="main-content">
             <header className="dashboard-header">
               <div className="header-text">
-                <h1 className="greeting-title">{getGreeting()}, User!</h1>
-                <p className="greeting-subtitle">{getCurrentDate()}</p>
+                <h1 className="greeting-title" style={{ display: 'flex', alignItems: 'center', gap: '0px' }}>
+                  {getGreeting()}, Task Ninja 
+                  <img src={ninja} alt="ninja" style={{ width: "55px", height: "55px", objectFit: 'cover' }}/>
+                </h1>
+                <p className="greeting-subtitle" style={{ marginTop: '0.25rem' }}>{getCurrentDate()}</p>
               </div>
               <button className="btn-add-task">
                 <TbPlus style={{ marginRight: '8px' }} />
