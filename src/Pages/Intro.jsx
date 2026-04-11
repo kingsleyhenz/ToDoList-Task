@@ -109,6 +109,7 @@ const SignUp = ()=>{
 
             <div className="form-footer">
               <p>Already have an account? <NavLink to="/login" className="login-link">Sign in</NavLink></p>
+              <p>Default otp is 12345</p>
             </div>
           </form>
         </div>
